@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_color"
+    tools:context=".ui.contrato.EULAActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="56dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="177dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="top|center_horizontal"
+                android:foreground="@drawable/logo_macropay"
+                android:foregroundGravity="fill"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txtTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:justificationMode="inter_word"
+                android:text="titulo"
+                android:textAlignment="center"
+                android:textColor="#FBFBF8"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- Texto de EULA
+                android:layout_marginBottom="110dp" -->
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="80dp">
+
+
+                <TextView
+                    android:id="@+id/textEULA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:divider="@color/white"
+                    android:justificationMode="inter_word"
+                    android:text="EULA"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+
+        <!--                Comentar para evitar error render-->
+       <com.macropay.downloader.ui.common.swipebar.SwipeBar
+            android:id="@+id/swipeBtnSalir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="56dp"
+            android:gravity="bottom"
+
+            app:button_background="@drawable/shape_button"
+           app:button_bottom_padding="20dp"
+           app:button_image_disabled="@drawable/ic_double_arrow_right_24"
+           app:button_image_enabled="@drawable/ic_check_circle_24"
+           app:button_left_padding="20dp"
+           app:button_right_padding="20dp"
+           app:button_top_padding="20dp"
+
+           app:inner_text="Desliza para aceptar"
+           app:inner_text_background="@drawable/shape_rounded_blue"
+           app:inner_text_bottom_padding="16dp"
+           app:inner_text_color="@color/white"
+           app:inner_text_size="16sp"
+           app:inner_text_top_padding="16dp" />
+
+    </RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

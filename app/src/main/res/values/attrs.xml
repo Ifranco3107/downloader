@@ -1,0 +1,87 @@
+<resources>
+    <declare-styleable name="FullscreenAttrs">
+        <attr name="fullscreenBackgroundColor" format="color" />
+        <attr name="fullscreenTextColor" format="color" />
+    </declare-styleable>
+
+
+
+    <!--
+      app:button_background="@drawable/ic_circle_24"
+            app:button_image_disabled="@drawable/ic_double_arrow_right_24"
+            app:button_image_enabled="@drawable/ic_double_arrow_right_24"
+            app:inner_text_size="16sp"
+
+            app:inner_text="Desliza para salir..."
+            app:inner_text_color="@android:color/white"
+
+
+            app:inner_text_background="@drawable/shape_rounded"
+            app:inner_text_bottom_padding="18dp"
+            app:inner_text_left_padding="10dp"
+
+
+            app:inner_text_top_padding="18dp"
+            android:visibility="visible"/>
+    -->
+    <declare-styleable name="SwipeBar">
+        <attr format="string" name="inner_text"/>
+        <attr format="color" name="inner_text_color"/>
+        <attr format="dimension" name="inner_text_size"/>
+
+        <attr format="reference" name="button_image_disabled"/>
+        <attr format="reference" name="button_image_enabled"/>
+        <attr format="reference" name="inner_text_background"/>
+        <attr format="dimension" name="button_left_padding"/>
+        <attr format="dimension" name="button_right_padding"/>
+        <attr format="dimension" name="button_top_padding"/>
+        <attr format="dimension" name="button_bottom_padding"/>
+        <attr format="reference" name="button_background"/>
+
+        <attr format="dimension" name="inner_text_left_padding"/>
+        <attr format="dimension" name="inner_text_right_padding"/>
+        <attr format="dimension" name="inner_text_top_padding"/>
+        <attr format="dimension" name="inner_text_bottom_padding"/>
+        <attr format="boolean" name="has_activate_state"/>
+        <attr format="dimension" name="button_image_width"/>
+        <attr format="dimension" name="button_image_height"/>
+        <attr format="boolean" name="button_trail_enabled"/>
+        <attr format="reference" name="button_trail_drawable"/>
+        <attr format="enum" name="initial_stated">
+            <enum name="enabled" value="0"/>
+            <enum name="disabled" value="1"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="MacroButton">
+        <attr name="expanded" format="boolean" />
+        <attr name="Text" format="string" />
+        <attr name="Icon" format="integer" />
+    </declare-styleable>
+
+    <!--    <declare-styleable name="SwipeBar">
+            <attr format="string" name="inner_text"/>
+            <attr format="color" name="inner_text_color"/>
+            <attr format="dimension" name="inner_text_size"/>
+
+            <attr format="dimension" name="inner_text_left_padding"/>
+            <attr format="dimension" name="inner_text_right_padding"/>
+            <attr format="dimension" name="inner_text_top_padding"/>
+            <attr format="dimension" name="inner_text_bottom_padding"/>
+            <attr format="reference" name="inner_text_background"/>
+            <attr format="dimension" name="button_image_width"/>
+            <attr format="dimension" name="button_image_height"/>
+            <attr format="boolean" name="button_trail_enabled"/>
+            <attr format="reference" name="button_trail_drawable"/>
+            <attr format="reference" name="button_image_disabled"/>
+            <attr format="reference" name="button_image_enabled"/>
+            <attr format="dimension" name="button_left_padding"/>
+            <attr format="dimension" name="button_right_padding"/>
+            <attr format="dimension" name="button_top_padding"/>
+            <attr format="dimension" name="button_bottom_padding"/>
+            <attr format="reference" name="button_background"/>
+            <attr format="boolean" name="has_activate_state"/>
+            <attr format="enum" name="initial_state">
+                <enum name="enabled" value="0"/>
+                <enum name="disabled" value="1"/>
+            </attr></declare-styleable>-->
+</resources>

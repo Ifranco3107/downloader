@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!--<string name="app_name">MacroLock</string>-->
+    <string name="app_name">Downloader</string>
+    <string name="device_admin_receiver_failure">Failed to become device/profile owner</string>
+
+
+    <!-- Permisos-->
+    <string name="label_permissions_network">network</string>
+    <string name="name_permissions_network">com.macropay.downloader.network</string>
+
+    <string name="label_permissions_packages">packages</string>
+    <string name="name_permissions_packages">com.macropay.downloader.packages</string>
+
+    <string name="label_permissions_lockstatus">lockstatus</string>
+
+    <string name="label_permissions_enrollstatus">enrollstatus</string>
+
+    <string name="label_permissions_battery">battery</string>
+    <string name="name_permissions_battery">com.macropay.downloader.battery</string>
+
+    <string name="label_permissions_idle">idle</string>
+    <string name="name_permissions_idle">com.macropay.downloader.idle</string>
+
+    <string name="user_pool_id">us-east-1_SKpm4pAKI</string>
+    <!--<string name="client_id">397548qp23dubtka617mqcuorf</string>-->
+    <string name="client_id">397548qp23dubtka617mqcuorf</string>
+
+    <!-- Reasons for disabling preferences -->
+
+    <!-- Strings for provisioning disclaimers-->
+
+    <!-- Strings for device owner management -->
+    <!-- Corporate-owned work profile falls under device owner management, for convenience. -->
+
+    <!-- Strings for device reboot -->
+
+    <!-- Strings for cross-profile intent filters -->
+
+    <!-- Strings for system information -->
+
+    <!-- Strings for camera and screen capture -->
+
+    <!-- Stings for work profile management -->
+
+    <!-- Strings for cross-profile widget provider -->
+
+    <!-- Strings for policies -->
+
+    <!-- Strings for APN -->
+
+    <!-- Strings for Cross Profile Calendar -->
+
+    <!-- Strings for wifi management -->
+    <!-- Hint for unchanged fields -->
+
+    <!-- Strings for managing apps -->
+
+
+    <![CDATA[
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    >
+
+    ]]><!-- Strings for lock task -->
+
+    <!-- Strings for single-use devices -->
+
+    <!-- Strings for user restriction management -->
+
+    <!-- Strings for select app -->
+
+
+    <!-- Strings for certificate management  -->
+
+
+    <!-- Strings for app restrictions -->
+
+    <!-- Strings for app feedback -->
+    <!-- [CHAR LIMIT=40] Settings label. A user can toggle this setting to turn on notifications for app feedback. -->
+
+    <!-- Strings for metered data restriction -->
+
+    <!-- Strings for delegation -->
+
+    <!-- strings used in the alert dialog for editing application restrictions. -->
+    <!-- Text shown in configure button when bundle/bundle array is chosen -->
+
+    <!-- Remote bugreport -->
+
+    <!-- Backup and Restore for Device Owner -->
+
+    <!-- Suspension of personal apps -->
+
+    <!-- Maximum time work profile is allowed to be off -->
+
+    <!-- Enterprise security logging -->
+
+    <!-- Network logging -->
+
+    <!-- Accessibility -->
+
+    <!-- Input method -->
+
+    <!-- Notification listeners -->
+
+    <!-- Account management -->
+
+    <!-- User management -->
+
+    <!-- Affiliation ids --><![CDATA[
+
+
+    >
+
+    ]]><!-- Strings for block uninstall -->
+
+    <!--  Strings for system update policy -->
+
+    <!-- Strings for pending update info checking -->
+
+    <!-- Strings for networking -->
+
+    <!--  Strings for data usage -->
+
+    <!-- Strings for permission policies -->
+    <!-- Message displayed when there are no apps permissions to show. -->
+
+    <!-- Keyguard features -->
+
+    <!-- Trust agent features -->
+
+    <!-- Strings for set time -->
+
+    <!-- Strings for setting profile name -->
+
+    <!-- Strings for set system settings -->
+
+    <!-- Strings for screen lock policies -->
+
+    <!-- Strings for password policies -->
+
+    <!-- Strings for password complexity -->
+
+    <!-- Strings for setting a new password -->
+
+    <!-- Strings for trust agent -->
+
+    <!-- Strings for managing Settings -->
+
+    <!-- Strings for setting support messages -->
+
+    <!-- Strings for organization info -->
+
+    <!-- strings used in the color picker dialog -->
+
+    <!-- Transfer ownership -->
+
+    <!-- Device owner to profile owner communication (COMP and DO<->PO of secondary users) -->
+
+    <!-- strings used in the reset password with token dialog -->
+
+    <!-- strings used in dpc login screen and dpc policy compliance screen.-->
+
+    <!-- This string is the title of a screen asking user how to set device up.
+
+  This screen will be shown if the user sets device up with a managed account, and we believe that the user may want to set up a managed profile rather than a managed device.[CHAR LIMIT=100] -->
+    <string name="selector_title">How will you use this phone?</string>
+    <!-- This string is the subtitle of a screen for setting up a managed device.
+
+      This screen will be shown if the user sets device up with a managed account, and we believe that the user may want to set up a managed profile rather than a managed device.[CHAR LIMIT=100] -->
+    <string name="do_selection_subtitle">Work</string>
+    <!-- This string is the detailed text of a screen for setting up a managed device, giving user more info on how their device will behave in this mode.
+
+    Text bullets that are part of a list. They describe one of the options a user can choose when setting up their new device, which would be to have their organization manage their entire device. That means that the data on the device won't be private (it will be visible to their IT admin), and it can be erased at any time.[CHAR LIMIT=200] -->
+    <string name="do_selection_detailed_text">
+        <li>This phone will be managed by your IT admin</li>\n\n
+        <li>Your data won\'t be private and can be erased at any time</li>
+    </string>
+    <!-- This string is for the button for setting up a managed device.
+
+    This screen will be shown if the user sets device up with a managed account, and we believe that the user may want to set up a managed profile rather than a managed device.[CHAR LIMIT=50] -->
+    <string name="do_selection_button_text">Use for work only</string>
+
+
+    <!-- This string is the subtitle of a screen for setting up a managed profile.
+
+      This screen will be shown if the user sets device up with a managed account, and we believe that the user may want to set up a managed profile rather than a managed device.[CHAR LIMIT=100] -->
+    <!-- This string is the detailed text of a screen for setting up a managed profile, giving user more info on how their device will behave in this mode.
+
+    This screen will be shown if the user sets device up with a managed account, and we believe that the user may want to set up a managed profile rather than a managed device.[CHAR LIMIT=200] -->
+    <!-- This string is for the button for setting up a managed profile.
+
+    This screen will be shown if the user sets device up with a managed account, and we believe that the user may want to set up a managed profile rather than a managed device.[CHAR LIMIT=50] -->
+
+
+    <!-- This string is the text shown to divide the two options shown on the mode selection screen.
+
+    This screen will be shown if the user sets device up with a managed account, and we believe that the user may want to set up a managed profile rather than a managed device.[CHAR LIMIT=100] -->
+
+
+    <!-- Accessibility text to explain the need for this service. -->
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <!-- KPE License Error Codes -->
+    <!-- Backwards-Compatible Key Error Codes -->
+    <string name="title_activity_eulaactivity">EULAActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <!-- Strings used for fragments for navigation -->
+
+</resources>

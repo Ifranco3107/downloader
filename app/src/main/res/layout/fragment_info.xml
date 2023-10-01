@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.provisioning.InfoFragment">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+
+            android:layout_marginEnd="16dp"
+
+            android:orientation="vertical"
+            android:padding="4dp">
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="información del Sistema"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtMarca"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="2dp"
+                    android:onClick="testRemoveSec"
+                    android:text="Samsung"
+                    android:textColor="@color/macropay_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtModelo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="2dp"
+                    android:text="A325"
+
+                    android:textColor="@color/macropay_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <!-- android:onClick="testBloqueo"-->
+                <TextView
+                    android:id="@+id/txtIMEI"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="2dp"
+                    android:onClick="testRemoveSec"
+                    android:text="1234454667687"
+
+                    android:textColor="@color/macropay_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtAndroidVersion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
+
+                    android:text="Android 10 -Q....."
+
+                    android:textColor="@color/macropay_gray"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/txtNumTel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="5534935661"
+                    android:textColor="@color/macropay_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:inputType="phone"
+                    android:visibility="gone"
+                    />
+                <TextView
+                    android:id="@+id/txtCurStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Termino.."
+                    android:textColor="@color/macropay_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:inputType="phone"
+                    android:visibility="visible"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|bottom"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="60dp"
+            android:text="version 12-Oct v.1.12"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:ignore="RtlCompat" />
+</FrameLayout>

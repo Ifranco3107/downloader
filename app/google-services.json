@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "659834127618",
+    "project_id": "macrolock-c4673",
+    "storage_bucket": "macrolock-c4673.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659834127618:android:a2a49eaa03768d9cb36e1b",
+        "android_client_info": {
+          "package_name": "com.macropay.downloader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "659834127618-32klfa9skolt5e80di5honub0iglg5to.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXkQpuuLmalQfNsQrHL2UiJaGMKjBCaVk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "659834127618-32klfa9skolt5e80di5honub0iglg5to.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

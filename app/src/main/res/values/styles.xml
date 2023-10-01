@@ -1,0 +1,30 @@
+<resources>
+<!--     <style name="Theme.AppCompat.Translucent" parent="@style/Theme.AppCompat.NoActionBar"> -->
+    <style name="Theme.AppCompat.Translucent" parent="@style/Theme.AppCompat.NoActionBar">
+        <!--on below line we are setting background as transparent color-->
+        <item name="android:background">@android:color/transparent</item>
+        <!--on below line we are displaying the windowNotitle as true as we are not displaying our status bar-->
+        <item name="android:windowNoTitle">true</item>
+        <!--on below line we are setting our window background as transparent color-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--on below line we are setting color background cache hint as null-->
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <!--on below line we are adding a window translucent as true-->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--on below line we are adding a window animationstyle-->
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+<!-- Agregados por IFA -04 Nov para el notch-->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+
+<!--  Se agrego para desactivar el Gesture mode, NO FUNCIONO PARA NUESTROS PROPOSITOS
+      <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>-->
+
+    </style>
+
+</resources>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_color"
+    tools:context=".ui.manual.AdminActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="177dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="top|center_horizontal"
+            android:foreground="@drawable/logo_macropay"
+            android:foregroundGravity="fill"
+
+            android:visibility="visible" />
+
+        <DigitalClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/macropay_yellow"
+            android:textSize="24dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:orientation="vertical"
+
+            android:padding="4dp">
+
+            <TextView
+                android:id="@+id/txtStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="Actualizando informacion..."
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/white"
+
+                android:textSize="20sp" />
+
+            <ProgressBar
+                android:id="@+id/cp_pbar"
+                android:layout_width="84dp"
+                android:layout_height="47dp"
+                android:layout_gravity="center" />
+            <!-- opciones de reintentos -->
+            <LinearLayout
+                android:id="@+id/lytWifiOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginVertical="10dp"
+                android:backgroundTint="@color/color_alert"
+                android:background="@drawable/shape_corner_rounded_sim"
+                android:padding="4dp"
+                >
+                <TextView
+                    android:id="@+id/txtError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="Actualizando informacion..."
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/macropay_orange"
+                    android:textSize="18sp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+
+                    android:padding="4dp">
+
+                    <Button
+                        android:id="@+id/btnWifi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:drawableTop="@drawable/wifi"
+                        android:backgroundTint="@color/color_alert"
+                        android:visibility="visible"
+                        android:onClick="addWifi"
+                        android:text="Configurar"
+                        android:textAllCaps="false"
+                        />
+
+                    <Button
+                        android:id="@+id/btnRetry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/ic_refresh_24"
+                        android:fontFamily="@font/arimo"
+                        android:textAllCaps="false"
+                        android:background="@null"
+                        android:backgroundTint="@color/color_alert"
+                        android:layout_weight="1"
+                        android:onClick="reintentar"
+
+                        android:text="Reintentar"
+                        android:visibility="visible"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/crdVersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center_horizontal"
+            android:layoutMode="clipBounds"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <!-- Main Content View
+            android:onClick="configUSB"
+               -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="4dp">
+                <TextView
+                    android:id="@+id/txtMarca"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="@color/macropay_blue"
+                    android:text="Samsung"
+                    android:textAlignment="center"
+
+                    android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/txtModelo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="Samsung"
+                    android:textColor="@color/macropay_blue"
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtIMEI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="Samsung"
+                    android:textColor="@color/macropay_blue"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/txtAndroidVersion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Android 10 -Q....."
+                    android:textColor="@color/macropay_blue"
+                    android:textAlignment="center"
+
+                    android:textSize="15sp" />
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <Button
+            android:id="@+id/btnReqOwner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/macropay_yellow"
+            android:textColor="@color/macropay_blue"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="false"
+            android:text="Reiniciar proceso"
+
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/btnUninstall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/macropay_yellow"
+            android:textColor="@color/macropay_blue"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="false"
+            android:text="Desinstalar"
+
+            tools:ignore="MissingConstraints" />
+    </LinearLayout>
+    <!--android:onClick="tester"
+
+     -->
+    <TextView
+        android:id="@+id/txtVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|bottom"
+        android:layout_marginEnd="10dp"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="20dp"
+        android:text="version 12-Oct v.1.12"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/light_blue_A400"
+
+        android:textSize="14sp"
+        tools:ignore="RtlCompat" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:padding="4dp">
+        <!--  android:onClick="checkDeviceOwnership" -->
+        <Button
+            android:id="@+id/btnPermisos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:backgroundTint="@color/macropay_yellow"
+            android:textColor="@color/macropay_blue"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="false"
+            android:layout_marginTop="30dp"
+            android:text="permisos"
+
+            tools:ignore="MissingConstraints" />
+        <Button
+            android:id="@+id/btnDescargar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/macropay_yellow"
+            android:textColor="@color/macropay_blue"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="false"
+            android:text="Descargar"
+
+            tools:ignore="MissingConstraints" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

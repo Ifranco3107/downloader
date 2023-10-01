@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:swipebar="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_color"
+    tools:context=".ui.provisioning.FinalizeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="177dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="top|center_horizontal"
+            android:foreground="@drawable/logo_macropay"
+            android:foregroundGravity="fill"
+            android:onClick="wifiOff"
+            android:visibility="visible" />
+
+        <DigitalClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
+            android:textSize="24dp" />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:orientation="vertical"
+
+            android:padding="4dp">
+
+            <TextView
+                android:id="@+id/txtStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="Actualizando informacion..."
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:onClick="testerSalir"/>
+
+            <ProgressBar
+                android:id="@+id/cpPbar"
+                android:layout_width="84dp"
+                android:layout_height="47dp"
+                android:layout_gravity="center"
+                android:indeterminateTint="#FFEB3B" />
+
+
+            <!-- opciones de reintentos -->
+            <LinearLayout
+                android:id="@+id/lytWifiOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible"
+                android:layout_marginVertical="10dp"
+                android:backgroundTint="@color/color_alert"
+                android:background="@drawable/shape_corner_rounded_sim"
+                android:padding="4dp">
+                <TextView
+                    android:id="@+id/txtError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="Actualizando informacion..."
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/macropay_orange"
+                    android:textSize="18sp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+
+                    android:padding="4dp">
+
+                    <Button
+                        android:id="@+id/btnWifi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:drawableTop="@drawable/wifi"
+                        android:visibility="visible"
+                        android:onClick="addWifi"
+                        android:text="Configurar"
+                        android:textAllCaps="false"
+         />
+
+                    <Button
+                        android:id="@+id/btnRetry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/ic_refresh_24"
+                        android:fontFamily="@font/arimo"
+                        android:textAllCaps="false"
+                        android:background="@null"
+                        android:layout_weight="1"
+                        android:onClick="reintentar"
+
+                        android:text="Reintentar"
+                        android:visibility="visible"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="10dp"
+            android:layout_marginTop="20dp"
+
+            android:layoutMode="clipBounds"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="4dp">
+                <!--                android:onClick="testRemoveSec"-->
+                <TextView
+                    android:id="@+id/txtMarca"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_gravity="center"
+                    android:text="Samsung"
+                    android:onClick="testerSalir"
+                    android:textAlignment="center"
+                    android:textColor="@color/macropay_blue"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtModelo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="A325"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:textColor="@color/macropay_blue"
+                    android:textSize="16sp"
+
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/txtAndroidVersion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center"
+                    android:text="Android 10 -Q....."
+                    android:textAlignment="center"
+                    android:textColor="@color/macropay_blue"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|bottom"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="16dp"
+        android:text="version 12-Oct v.1.12"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/light_blue_A400"
+
+        android:textSize="14sp"
+        tools:ignore="RtlCompat" />
+    <!--
+        <RelativeLayout
+            android:id="@+id/lytEULA"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/viewUnlocked"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="0dp">
+
+                <ImageView
+                    android:id="@+id/imgLogo"
+                    android:layout_width="250dp"
+                    android:layout_height="84dp"
+                    android:layout_gravity="top|center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:padding="0dp"
+                    android:src="@drawable/logo_perro"
+                    android:visibility="visible" />
+
+
+
+                <TextView
+                    android:id="@+id/txtTitulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="titulo"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textColor="#FBFBF8"
+                    android:textSize="20sp" />
+
+                &lt;!&ndash; Texto de EULA
+                    android:layout_marginBottom="110dp" &ndash;&gt;
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="110dp">
+
+                    <TextView
+                        android:id="@+id/textEULA"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:divider="#E6E6E6"
+                        android:text="EULA"
+                        android:visibility="visible" />
+                </androidx.core.widget.NestedScrollView>
+
+            </LinearLayout>
+            <com.macropay.dpcmacro.ui.common.swipebar.SwipeBar
+                android:id="@+id/swipeBtnSalir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="40dp"
+                android:gravity="bottom"
+
+                app:button_background="@drawable/shape_button"
+                app:button_bottom_padding="20dp"
+                app:button_image_disabled="@drawable/ic_double_arrow_right_24"
+                app:button_image_enabled="@drawable/ic_check_circle_24"
+                app:button_left_padding="20dp"
+                app:button_right_padding="20dp"
+                app:button_top_padding="20dp"
+
+                app:inner_text="Desliza para aceptar..."
+                app:inner_text_background="@drawable/shape_rounded"
+                app:inner_text_bottom_padding="16dp"
+                app:inner_text_size="16sp"
+                app:inner_text_top_padding="16dp"
+                swipebar:inner_text_color="@android:color/white" />
+
+        </RelativeLayout>-->
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

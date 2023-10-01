@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <root-path name="root" path="." />
+    <external-path name="my_images" path="TaskTrack/Pictures" />
+</paths>
+-->
+
+<paths>
+    <files-path path="media/" name="media" />
+    <files-path path="/" name="allfiles" />
+
+    <root-path name="root" path="." />
+    <external-path name="my_images" path="testdpc/Pictures" />
+</paths>

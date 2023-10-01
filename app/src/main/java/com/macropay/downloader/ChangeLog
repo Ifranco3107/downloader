@@ -1,0 +1,28 @@
+####################################################################################################################
+#                                          Bitacora de cambios                                                     #
+####################################################################################################################
+# Fecha             Autor   Descripcion breve                                                                      #
+####################################################################################################################
+01 Feb 2023 18:10   IFA     Se creo este archivo, para la version de produccion.
+10 Feb 2023 14:00   IFA     HotFix: Correccion de persistencia de Mqtt
+11 Feb 2023 14:00   IFA     HotFix: Mejora a la conexion de Mqtt,
+12 Feb 2021
+20 Feb 2023 10:15   IFA     feat/mqtt_reforzado     Se agrego funcionalidad para obtener msgs via http
+21 Feb 2023 13:45   IFA     feat/mqtt_encrypted     Se encryptaron los certificados de MQTT
+22 Feb 2023 18:55   NEK     cognito                 Se envian credenciales de cognito en cabeceras de endpoints
+23 Feb 2023 11:47   NEK     cognito                 Se crea segunda forma para obtener credenciales de cognito
+23 Feb 2023 16:00   IFA     fecture/mejoras_pruebas Se integraron las ramas de cognito.
+27 Feb 2023 16:00   IFA     feature/entrega_mvp3    Version que se paso a QA - ver. 1.0.4 (10)
+27 Feb 2023 16:00   IFA     feature/entrega_mvp3    Version que se paso a QA - ver. 1.0.4 (10)
+
+07 Mar 2023 23:00   IFA     feat/release_mvp4_1)    Liberacion a PROD.
+15 Mar 2023 15:00
+19 Mar 2023 14:00   IFA     fix/fase6_fixesQA       Fixes de QA para liberacion de fase 6  -ver 1.0.7 (15)
+05 Abr 2023 23:00   IFA     fix/downloader          Fixes de Downlaoder y bloqueo por conexion. ver 1.0.8
+06 Abr 2023 12:00   IFA     feat/fase7_1            Correcciones al finalizar el enrolamiento,
+13 Abr 2023 18:30   IFA     feat/fase7_2            Mejoras al descargar las apps, desbloqueo por desconexion, consierar DayLightSaving.
+10 May 2023 13:30   IFA     feat/Fase8_2            Integrado con los cambios de UI de Nelson y Edwin
+01 Jun 2023 18:00   IFA     feat/fase9_2            Version para liberacion a Prod (1.1.12-40)
+
+
+

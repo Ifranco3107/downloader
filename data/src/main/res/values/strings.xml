@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="user_pool_id">us-east-1_SKpm4pAKI</string>
+    <!--<string name="client_id">397548qp23dubtka617mqcuorf</string>-->
+    <string name="client_id">397548qp23dubtka617mqcuorf</string>
+</resources>

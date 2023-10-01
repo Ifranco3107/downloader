@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
+    android:layout_height="56dp"
+    android:layout_gravity="center_horizontal"
+    android:visibility="visible"
+    app:cardBackgroundColor="@color/macropay_yellow"
+    android:theme="@style/Theme.MaterialComponents.Light">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/macropay_yellow"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginVertical="15dp"
+            android:gravity="center"
+            android:text="Enviar SMS de validación"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/macropay_blue"
+            android:textSize="18dp" />
+
+        <ImageView
+            android:id="@+id/imgButton"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+android:src="@drawable/arrow_right_circle"
+            />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

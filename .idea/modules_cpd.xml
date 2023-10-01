@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/DPCMacro.iml" filepath="$PROJECT_DIR$/.idea/DPCMacro.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DPCMacro.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DPCMacro.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DPCMacro.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DPCMacro.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DPCMacro.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DPCMacro.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/restrictionbypass/DPCMacro.app.restrictionbypass.iml" filepath="$PROJECT_DIR$/.idea/modules/app/restrictionbypass/DPCMacro.app.restrictionbypass.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/restrictionbypass/DPCMacro.app.restrictionbypass.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/restrictionbypass/DPCMacro.app.restrictionbypass.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/restrictionbypass/DPCMacro.app.restrictionbypass.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/restrictionbypass/DPCMacro.app.restrictionbypass.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/restrictionbypass/DPCMacro.app.restrictionbypass.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/restrictionbypass/DPCMacro.app.restrictionbypass.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DPCMacro.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DPCMacro.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/DPCMacro.data.iml" filepath="$PROJECT_DIR$/.idea/modules/data/DPCMacro.data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/DPCMacro.data.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/data/DPCMacro.data.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/DPCMacro.data.main.iml" filepath="$PROJECT_DIR$/.idea/modules/data/DPCMacro.data.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/DPCMacro.data.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/data/DPCMacro.data.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/utils/DPCMacro.utils.iml" filepath="$PROJECT_DIR$/.idea/modules/utils/DPCMacro.utils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/utils/DPCMacro.utils.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/utils/DPCMacro.utils.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/utils/DPCMacro.utils.main.iml" filepath="$PROJECT_DIR$/.idea/modules/utils/DPCMacro.utils.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/utils/DPCMacro.utils.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/utils/DPCMacro.utils.unitTest.iml" />
+    </modules>
+  </component>
+</project>

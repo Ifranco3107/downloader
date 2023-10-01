@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.macropay.downloader">
+    <!-- android:sharedUserId="com.macropay" -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- <uses-permission android:name="android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE"/> -->
+    <uses-permission
+        android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.REBOOT"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- se agrego para android 10 -->
+    <!-- <uses-permission android:name="android.permission.BOOT_COMPLETED" /> -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!--  -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Telefonia -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission
+        android:name="android.permission.MODIFY_PHONE_STATE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_MMS" />
+    <uses-permission
+        android:name="android.permission.BROADCAST_SMS"
+        tools:ignore="ProtectedPermissions" />
+    <!--
+    android.permission.READ_PHONE_STATE,
+    android.permission.READ_SMS,
+    android.permission.READ_PHONE_NUMBERS
+    -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <!--
+    <uses-permission android:name="android.permission.MASTER_CLEAR"
+        tools:ignore="ProtectedPermissions" />
+    -->
+    <uses-permission
+        android:name="android.permission.SUSPEND_APPS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.INSTALL_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- <uses-permission android:name="android.permission.DEVICE_POWER" /> -->
+    <uses-permission android:name="android.permission.PREVENT_POWER_KEY" /> <!-- <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> -->
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission
+        android:name="android.permission.SHUTDOWN"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" /> <!-- Location -->
+    <!-- ACCESS_COARSE_LOCATION - Aproximada -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Include only if your app benefits from precise location access. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Required only when requesting background location access on Android 10 (API level 29) and higher -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!--  -->
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission
+        android:name="android.permission.CHANGE_COMPONENT_ENABLED_STATE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" /> <!-- KNOX -->
+<!--    <uses-permission android:name="com.samsung.android.knox.permission.KNOX_HW_CONTROL" />
+    <uses-permission android:name="com.samsung.android.knox.permission.KNOX_TIMA_KEYSTORE" />
+    <uses-permission android:name="com.samsung.android.knox.permission.KNOX_ENHANCED_ATTESTATION" />
+    <uses-permission android:name="com.samsung.android.knox.permission.KNOX_RESTRICTION_MGMT" /> &lt;!&ndash;  &ndash;&gt;
+    <uses-permission android:name="com.example.supportlibclient.SUPPORT_PERMISSION" />-->
+    <uses-permission
+        android:name="android.permission.MANAGE_PROFILE_AND_DEVICE_OWNERS"
+        tools:ignore="ProtectedPermissions" /> <!-- 01Jun22 -->
+    <uses-permission android:name="android.Manifest.permission.MANAGE_FACTORY_RESET_PROTECTION" />
+
+<!--    <permission
+        android:name="com.example.supportlibclient.SUPPORT_PERMISSION"
+        android:label="Support permission"
+        android:protectionLevel="signature" />-->
+    <!--
+ Permisos de receivers
+    <meta-data android:name="com.google.android.geo.API_KEY" android:value="${googleMapApiKey}"/>
+    -->
+    <permission
+        android:name="@string/name_permissions_network"
+        android:label="@string/label_permissions_network"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="@string/name_permissions_packages"
+        android:label="@string/label_permissions_packages"
+        android:protectionLevel="normal" /> <!-- para status y lock -->
+    <permission
+        android:name="com.macropay.downloader.lockstatus"
+        android:label="@string/label_permissions_lockstatus"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="com.macropay.downloader.enrollstatus"
+        android:label="@string/label_permissions_enrollstatus"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="@string/name_permissions_battery"
+        android:label="@string/label_permissions_battery"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="@string/name_permissions_idle"
+        android:label="@string/label_permissions_idle"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="com.macropay.downloader.downloader"
+        android:label="downloader"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="com.macropay.downloader.installer"
+        android:label="installer"
+        android:protectionLevel="normal" />
+
+
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
+    <uses-permission android:name="com.macropay.downloader.idle" />
+    <uses-permission android:name="com.macropay.downloader.network" />
+    <uses-permission android:name="com.macropay.downloader.lockstatus" />
+    <uses-permission android:name="com.macropay.downloader.enrollstatus" />
+    <uses-permission android:name="com.macropay.downloader.packages" />
+    <uses-permission android:name="com.macropay.downloader.battery" />
+    <uses-permission android:name="com.macropay.downloader.downloader" />
+    <uses-permission android:name="com.macropay.downloader.installer" />
+    <uses-permission android:name="android.permission.SEND_DOWNLOAD_COMPLETED_INTENTS" />
+    <!--
+       <application
+            android:name="com.macropay.downloader.services.InitApplication">
+        </application>
+    -->
+    <!--
+ <queries>
+    https://stackoverflow.com/questions/64646204/how-to-run-android-app-or-install-on-playstore-if-unavailable-for-api30
+     Apartir de Android 11, es neceseario para interactuar con otras aplicaciones,
+     PackageManager.getApplicationInfo(),ya no funcionan correctamente.
+    -->
+    <queries>
+        <package android:name="com.grupomacro.macropay" />
+        <package android:name="com.macropay.dpcmacro" />
+        <package android:name="com.macropay.macropaguitos" />
+
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.HOME" />
+        </intent>
+    </queries>
+<!--    android:testOnly="true"-->
+    <application
+        android:name=".MainApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_coco"
+        android:label="@string/app_name"
+        android:lockTaskMode="if_whitelisted"
+        android:roundIcon="@mipmap/ic_coco_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.downloader"
+        android:usesCleartextTraffic="true"
+        >
+        <activity
+            android:name=".ui.manual.AdminActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <profileable android:shell="true" />
+
+        <activity
+            android:name=".ui.provisioning.ResetCveActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.Alertas.AlertasActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity=""
+            android:theme="@style/Theme.AppCompat.Translucent"
+            tools:ignore="LockedOrientationActivity" /> <!-- ACTIVITIES -->
+        <activity
+            android:name=".ui.provisioning.EnrollActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:turnScreenOn="true" />
+        <!--
+        android:noHistory="true"
+        android:launchMode="singleTop"
+        -->
+        <activity
+            android:name=".ui.contrato.EULAActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:label="@string/title_activity_eulaactivity"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:turnScreenOn="true" />
+        <activity
+            android:name=".ui.validacion.QRValidationActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            tools:ignore="Instantiatable" /> <!-- desde aqui Android 12..... -->
+        <meta-data
+            android:name="supportAndroid12"
+            android:value="true" />
+
+        <activity
+            android:name=".ui.provisioning.GetProvisioningModeActivity"
+            android:exported="true"
+            android:permission="android.permission.BIND_DEVICE_ADMIN"
+            android:theme="@style/Theme.AppCompat.Translucent">
+            <intent-filter>
+                <action android:name="android.app.action.GET_PROVISIONING_MODE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.provisioning.ProvisioningSuccessActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.app.action.PROVISIONING_SUCCESSFUL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.provisioning.FinalizeActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_DEVICE_ADMIN"
+            android:theme="@style/Theme.AppCompat.Translucent">
+            <intent-filter>
+                <action android:name="android.app.action.ADMIN_POLICY_COMPLIANCE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity> <!-- hasta aqui android 12 -->
+        <activity
+            android:name=".ui.provisioning.Permissions"
+            android:exported="true" /> <!-- ============================================================== -->
+        <!-- RECEIVERS -->
+        <!-- ============================================================== -->
+        <receiver
+            android:name=".DeviceAdminReceiver"
+            android:description="@string/app_name"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin_receiver" />
+
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+                <action android:name="android.app.action.PROFILE_PROVISIONING_COMPLETE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.app.action.PROFILE_OWNER_CHANGED" />
+                <action android:name="android.app.action.DEVICE_OWNER_CHANGED" />
+                <action android:name="android.app.action.FACTORY_RESET" />
+                <action android:name="android.app.action.TRANSFER_OWNERSHIP_COMPLETE" />
+                <action android:name="android.app.extra.TRANSFER_OWNERSHIP_ADMIN_EXTRAS_BUNDLE" />
+                <!--
+                <action android:name="com.macropay.downloader.action.START_BLOCKED" />
+                <action android:name="com.macropay.downloader.action.END_BLOCKED" />
+                -->
+                <action android:name="com.macropay.macropaguitos.action.REMOTE_COMMAND" />
+                <action android:name="com.macropay.macropaguitos.action.STATUS" />
+                <action android:name=" android.app.action.APPLICATION_DELEGATION_SCOPES_CHANGED"/>
+                <!-- Added in R [30 R Android 11] -->
+                <action android:name="android.app.action.RESET_PROTECTION_POLICY_CHANGED" />
+                <action android:name="android.accounts.action.ACCOUNT_REMOVED" />
+                <!--
+                 Added in S [31 R Android 12]
+                 las siguieentes 2 lineas se agregaron para ZT:ifa-08Ago23
+                -->
+                <action android:name="android.app.action.PROVISION_MANAGED_DEVICE" />
+                <action android:name="android.app.action.PROVISION_MANAGED_PROFILE" />
+                <!--  -->
+                <action android:name="android.intent.action.SCREEN_OFF" />
+                <action android:name="android.intent.action.SCREEN_ONF" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receivers.UpdaterReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.macropay.updater.action.STATUS" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receivers.NetworkReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receivers.LocationReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.macropay.downloader.LocationReceiver.ACTION_PROCESS_UPDATES" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receivers.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true" />
+        <!--
+            NOTA:
+                PackageReceiver - Se inicializa en el DeviceAdminService
+                IdleReceiver - Se inicializa en el DeviceAdminService
+        -->
+        <!-- ============================================================== -->
+        <!-- PROVIDERS -->
+        <!-- ============================================================== -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.macropay.downloader.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider> <!-- ============================================================== -->
+        <!-- SERVICIOS -->
+        <service
+            android:name=".DevAdminService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_DEVICE_ADMIN"
+            tools:ignore="Instantiatable">
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_SERVICE" />
+            </intent-filter>
+        </service> <!-- ============================================================== -->
+        <!-- FONTS -->
+        <!-- ============================================================== -->
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

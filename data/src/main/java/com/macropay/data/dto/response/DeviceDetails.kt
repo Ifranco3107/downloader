@@ -1,0 +1,33 @@
+package com.macropay.data.dto.response
+
+data class DeviceDetails(
+    val dispositivo_so_id: Any,
+    val estatus: Int,
+    val fec_alta: String,
+    val fec_enroll: String,
+    val fec_estado_requerido: String,
+    val fec_liberacion: String,
+    val hasImei: Boolean,
+    val iccid_1: String,
+    val iccid_2: String,
+    val id_dispositivo: Int,
+    val id_enrolado: Int,
+    val id_estado_aplicacion_macrolock: Int,
+    val id_estado_aplicacion_macropay: Int,
+    val id_estado_dispositivo: Int,
+    val id_estado_dispositivo_requerido: Int,
+    val id_registro: String,
+    val imei: String,
+    val isEnrolled: Int,
+    val lock_id: String,
+    val no_telefono: String,
+    val no_telefono_2: Any,
+    val nombre_aplicativo: Any,
+    val serie: String,
+    val sucursal: Any,
+    val tipo_bloqueo: Any,
+    val token_offline: String,
+    val ui_version: Any,
+    val ult_fec_act: String,
+    val ult_fec_syncmovil: String
+)
