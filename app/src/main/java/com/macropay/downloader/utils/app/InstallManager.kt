@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.UserManager
+import android.view.View
 import com.macropay.data.logs.ErrorMgr
 import com.macropay.data.logs.Log
 import com.macropay.data.preferences.Defaults
@@ -245,8 +246,13 @@ fun unInstall2(packageName: String){
         appsToInstall.clear()
         restoreRestrictionUnknowResources()
         clean("terminoInstallApp")
+        //--
+        val handlerLock = Handler(Looper.getMainLooper())
+        handlerLock.postDelayed({
+            Log.msg(TAG,"[terminoInstallApp]  va tranferir control")
+            transferCtrl.transfer("com.macropay.dpcmacro")
+        }, 3_000)
 
-        transferCtrl.transfer("com.macropay.dpcmacro")
 
         } catch (ex: Exception) {
             ErrorMgr.guardar(TAG, "terminoInstallApp", ex.message)

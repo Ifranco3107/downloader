@@ -169,7 +169,11 @@
             <category android:name="android.intent.category.HOME" />
         </intent>
     </queries>
-<!--    android:testOnly="true"-->
+<!--
+android:testOnly="true"
+    No se puede instalar...
+    adb: failed to install Download-release.apk: Failure [INSTALL_FAILED_TEST_ONLY: installPackageLI]
+-->
     <application
         android:name=".MainApp"
         android:allowBackup="true"
@@ -180,6 +184,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.downloader"
         android:usesCleartextTraffic="true"
+
         >
         <activity
             android:name=".ui.manual.AdminActivity"

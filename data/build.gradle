@@ -40,7 +40,7 @@ android {
         buildConfigField "String","ds16","\"${properties.getProperty("ds16")}\""
         buildConfigField "String","ua17","\"${properties.getProperty("ua17")}\""
         buildConfigField "String","cm18","\"${properties.getProperty("cm18")}\""
-
+        buildConfigField "String","ei19","\"${properties.getProperty("ei19")}\""
 
         buildConfigField "String","sht","\"${properties.getProperty("sht")}\""
         buildConfigField "String","smq","\"${properties.getProperty("smq")}\""

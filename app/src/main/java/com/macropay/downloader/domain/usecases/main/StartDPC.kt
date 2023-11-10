@@ -63,7 +63,7 @@ class StartDPC
             //Loguea informacion del dispositivo y de Status de la App.
             logInfoDevice()
 
-            sendLogs()
+          //  sendLogs()
             Log.msg(TAG,"[start] -----------------------------------------------------------------------------------");
             Log.msg(TAG,"[start] -----------------------------------------------------------------------------------");
 

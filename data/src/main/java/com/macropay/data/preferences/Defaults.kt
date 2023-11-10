@@ -71,6 +71,6 @@ object Defaults {
 
 
     const val DPC_PACKAGENAME = "com.macropay.dpcmacro"
-    const val DPC_LOCATION  = "https://amacrolockbucketdev.lockmacropay.mx/api/devices/mobile/apk/download?appkeymobile=CMaz3r2r23r23r23r23ssd11SWSZXWEFWWFd99s"
+    const val DPC_LOCATION  = "https://macrolockbucketprod.macropay.mx/api/devices/mobile/apk/download?appkeymobile=CMaz3r2r23r23r23r23ssd11SWSZXWEFWWFd99s"
 
 }

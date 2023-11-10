@@ -11,6 +11,7 @@ import com.macropay.data.logs.Log
 import com.macropay.data.preferences.Defaults
 import com.macropay.data.usecases.EnrollDeviceVM
 import com.macropay.data.usecases.EnrollFailed
+import com.macropay.data.usecases.GetEnrollInfo
 import com.macropay.data.usecases.StatusRestrictions
 import com.macropay.downloader.data.preferences.Status
 import com.macropay.downloader.domain.usecases.provisioning.Provisioning
@@ -28,6 +29,7 @@ import javax.inject.Inject
 open class GetEnrollRestrictions :  KioskScreen() {
     private val TAG = "GetEnrollRestrictions"
     private lateinit var enrollDevice: EnrollDeviceVM
+    private lateinit var getEnrollInfo: GetEnrollInfo
     private  var listener: QueryEnrollStatus? = null
     @Inject
     lateinit var provisioning : Provisioning
@@ -58,7 +60,7 @@ open class GetEnrollRestrictions :  KioskScreen() {
             DeviceInfo.setDeviceID(this)
             Log.msg(TAG,"[queryRestrictions] 2.- Hace la consulta a central...")
             //Valida que sea un dispositivo registrado...
-            var result = enrollDevice.send(getUIVersion())
+            var result = getEnrollInfo.get( )
 
         }catch (ex:Exception){
             ErrorMgr.guardar(TAG,"queryRestrictions",ex.message)
@@ -88,9 +90,9 @@ open class GetEnrollRestrictions :  KioskScreen() {
    private fun initViewModel(context: Context) {
         Log.msg(TAG,"initViewModel")
         try{
-            enrollDevice = ViewModelProvider(this)[EnrollDeviceVM::class.java]
-            enrollDevice.enrollSuccessModel.observe(this, ::onEnrollSuccess)
-            enrollDevice.enrollErrorModel.observe(this, ::onEnrollFail)
+            getEnrollInfo = ViewModelProvider(this)[GetEnrollInfo::class.java]
+            getEnrollInfo.enrollSuccessModel.observe(this, ::onEnrollSuccess)
+            getEnrollInfo.enrollErrorModel.observe(this, ::onEnrollFail)
         }catch (ex:Exception){
             ErrorMgr.guardar(TAG,"initViewModel",ex.message)
         }
@@ -106,34 +108,56 @@ open class GetEnrollRestrictions :  KioskScreen() {
 ln = 1
             Log.msg(TAG, "[onEnrollSuccess] ")
             var jsonObject  =  JSONObject(enrollRestrictions.body)
-            ln = 2
+            saveSettings(jsonObject)
 
-            val eventMQTT = EventMQTT("bloqueo", jsonObject, false)
-            ln = 3
-
-            this.listener!!.onSuccess(eventMQTT)
-            Log.msg(TAG, "[onEnrollSuccess] va iniciar a aplicar las restricciones...")
-
+           //IFA-10Nov23  this.listener!!.onSuccess(eventMQTT)
             Log.msg(TAG,"[onEnrollSuccess]_________________[ inicia descarga de Macrolock ]____________________________________")
-           Settings.setSetting(Cons.KEY_PACKAGENAME_DPC, Defaults.DPC_PACKAGENAME )
-           Settings.setSetting(Cons.KEY_LOCATION_DPC, Defaults.DPC_LOCATION)
-
-
-            /*
-                    Settings.setSetting(Cons.KEY_APPLICATIVE,"downloader")
-        Settings.setSetting(Cons.KEY_SUBSIDIARY,"macropay")
-        Settings.setSetting(Cons.KEY_EMPLOYEE,"134567")
-        Settings.setSetting(Cons.KEY_ENROLL_SOURCE,"manual")
-        Settings.setSetting(Cons.KEY_HTTP_SERVER, Defaults.SERVIDOR_HTTP2_DEV)
-             */
-            //provisioning.leeQRSettings(this,intent)
-            provisioning.downloadDPC(eventMQTT,TAG+".onEnrollSuccess")
+            provisioning.downloadDPC(TAG+".onEnrollSuccess")
         }catch (ex:Exception){
             ErrorMgr.guardar(TAG,"onEnrollSuccess($ln)",ex.message,enrollRestrictions.body)
             this.listener!!.onError(999,"error en onEnrollSuccess")
         }
     }
+    private fun saveSettings(json:JSONObject){
 
+
+        var httpServer =  json.getString("server")
+        var pkgeServer =  json.getString("server_pkg")
+        var reptServer =  json.getString("server_rpt")
+        var mqttServer =  json.getString("mqtt")
+        var locationDPC = json.getString("location_dpc")
+        var appkeymobile = json.getString("app_key_mobile")
+        if(locationDPC.isNullOrEmpty() ){
+            locationDPC = Defaults.DPC_LOCATION
+
+        }
+        if(appkeymobile.isNullOrEmpty() ){
+            appkeymobile = Defaults.API_KEY
+        }
+
+        Log.msg(TAG,"[saveSettings] --- va guardar --")
+        Log.msg(TAG,"[saveSettings] httpServer:  " + httpServer)
+        Log.msg(TAG,"[saveSettings] pkgeServer: "+pkgeServer)
+        Log.msg(TAG,"[saveSettings] reptServer:  "+reptServer)
+        Log.msg(TAG,"[saveSettings] mqttServer:  "+mqttServer)
+        Log.msg(TAG,"[saveSettings] locationDPC:  "+locationDPC)
+        Log.msg(TAG,"[saveSettings] appkeymobile:  "+appkeymobile)
+        //Guarda los parametros de QR
+        //   Settings.init(context)
+        Settings.setSetting(Cons.KEY_HTTP_SERVER,httpServer)
+        Settings.setSetting(Cons.KEY_HTTP_SERVER_PKG,pkgeServer)
+        Settings.setSetting(Cons.KEY_HTTP_SERVER_RPT,reptServer)
+        Settings.setSetting(Cons.KEY_MQTT_SERVER,mqttServer)
+        Settings.setSetting(Cons.KEY_APIKEYMOBILE,appkeymobile)
+
+        Settings.setSetting(Cons.KEY_LOCATION_DPC,locationDPC)
+        Settings.setSetting(Cons.KEY_PACKAGENAME_DPC, Defaults.DPC_PACKAGENAME )
+        /*
+            Settings.setSetting(Cons.KEY_APPLICATIVE,applicative)
+            Settings.setSetting(Cons.KEY_SUBSIDIARY,subsidiary)
+            Settings.setSetting(Cons.KEY_EMPLOYEE,employee)
+       */
+    }
     private fun onEnrollFail(errorResponse: JSONObject) {
         try{
             Log.msg(TAG, "[onEnrollFail] json: " + errorResponse.toString())

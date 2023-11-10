@@ -24,6 +24,7 @@ import com.macropay.downloader.domain.usecases.bloqueo.AppyPermissions
 import com.macropay.downloader.domain.usecases.main.AppsCtrl
 import com.macropay.downloader.domain.usecases.main.RestrictionCtrl
 import com.macropay.downloader.domain.usecases.manual.InstallerDPC
+import com.macropay.downloader.ui.manual.AdminActivity
 import com.macropay.downloader.utils.activities.Dialogs
 import com.macropay.utils.broadcast.Sender
 import com.macropay.utils.phone.DeviceInfo
@@ -135,6 +136,11 @@ appyPermissions.autoGrant(mContext)
                 Log.msg(TAG,"[start] ***********************")
                GlobalScope.launch {
                    val success = withContext(Dispatchers.Main){
+                       if(!Dialogs.isRunning(context,AdminActivity::class.java)){
+                           Log.msg(TAG,"[start] va mostrar la AdminActivity")
+                           Dialogs.showActivity(context,AdminActivity::class.java)
+                       }
+
                         Log.msg(TAG, "[start] 1.- inicia Proceso.\n\n\n\n")
                        Sender.sendEnrollProcess(context,true,200,"")
                        Log.msg(TAG, "[start] 2.- termino proceso")
@@ -265,7 +271,7 @@ appyPermissions.autoGrant(mContext)
         Log.init("downloader", mContext)
     }
     //Inicia a aplicar las restricciones....
-    fun downloadDPC(eventMQTT:EventMQTT,source:String)   {
+    fun downloadDPC(source:String)   {
         Log.msg(TAG,"[iniciar] source: [$source]")
         Sender.sendStatus("Inicializando...")
         try {
@@ -273,10 +279,8 @@ appyPermissions.autoGrant(mContext)
             Log.msg(TAG, "[iniciar]--------------< 1 Aplicando restricciones. >--------------------------------- ")
             Sender.sendStatus("Inicializando...10%")
             CoroutineScope(Dispatchers.IO).async {
-
-
                 Sender.sendStatus("Inicializando.. 25%")
-                installerDPC.download(eventMQTT)
+                installerDPC.download()
             }
 
 

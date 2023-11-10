@@ -143,6 +143,10 @@ interface DeviceAPI {
     suspend  fun sendComments(@Url url:String, @Body CommentsDto: JsonObject,
                                  @HeaderMap headers: Map<String, String>,
     ): Response<ResponseBody>
+    @POST
+    suspend fun getEnrollInfo(@Url url:String,
+                         @HeaderMap headers: Map<String, String>
+    ): Response<EnrollInfoResponse>
 
 }
 

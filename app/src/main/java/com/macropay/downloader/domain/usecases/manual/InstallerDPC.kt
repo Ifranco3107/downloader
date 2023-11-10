@@ -31,11 +31,11 @@ class InstallerDPC
     var TAG = "InstallDPC"
     //@Inject
   //  lateinit var packageService : PackageService
-    fun download(msg: EventMQTT): Boolean = runBlocking {
+    fun download(): Boolean = runBlocking {
         try {
-            val restrictioms = msg.toString()
+/*            val restrictioms = msg.toString()
             Log.msg(TAG, "[download] restrictioms: $restrictioms")
-            Settings.setSetting(Cons.KEY_RESTRICTIONS,restrictioms)
+            Settings.setSetting(Cons.KEY_RESTRICTIONS,restrictioms)*/
 
             var apksJson =  getApkJson() //msg.message.getString("data").replace("\\", "")
             CoroutineScope(
@@ -49,7 +49,7 @@ class InstallerDPC
 
             }
         } catch (ex: Exception) {
-            ErrorMgr.guardar(TAG, "download", ex.message, msg.toString())
+            ErrorMgr.guardar(TAG, "download", ex.message)
         }
         return@runBlocking true
     }
