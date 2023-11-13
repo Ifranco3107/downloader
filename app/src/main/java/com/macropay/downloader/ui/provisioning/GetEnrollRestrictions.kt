@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import com.macropay.data.BuildConfig
 import com.macropay.data.dto.request.EventMQTT
 import com.macropay.data.logs.ErrorMgr
 import com.macropay.data.logs.Log
@@ -111,8 +112,11 @@ ln = 1
             saveSettings(jsonObject)
 
            //IFA-10Nov23  this.listener!!.onSuccess(eventMQTT)
-            Log.msg(TAG,"[onEnrollSuccess]_________________[ inicia descarga de Macrolock ]____________________________________")
-            provisioning.downloadDPC(TAG+".onEnrollSuccess")
+            if(!BuildConfig.isTestTCL.equals("true")){
+                Log.msg(TAG,"[onEnrollSuccess]_________________[ inicia descarga de Macrolock ]____________________________________")
+                provisioning.downloadDPC(TAG+".onEnrollSuccess")
+            }
+
         }catch (ex:Exception){
             ErrorMgr.guardar(TAG,"onEnrollSuccess($ln)",ex.message,enrollRestrictions.body)
             this.listener!!.onError(999,"error en onEnrollSuccess")

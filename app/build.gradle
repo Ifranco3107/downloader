@@ -45,8 +45,8 @@ android {
         //IFA  19OCT targetSdk 30
         //noinspection ExpiredTargetSdkVersion
 
-        versionCode 21 //Numero de compilacion.
-        versionName "1.0.25 dbg 1011.1620"
+        versionCode 28 //Numero de compilacion.
+        versionName "1.0.25 dbg 1311.1615"
 /*
          --------------------------------------------
          **         HISTORICO DE VERSIONES.        **
@@ -73,6 +73,7 @@ android {
         buildConfigField "String","awks","\"${properties.getProperty("awks")}\""
         buildConfigField "String","msgd","\"${properties.getProperty("msgd")}\""
         buildConfigField "String","isFase7","\"${properties.getProperty("isFase7")}\""
+        buildConfigField "String","isTestTCL","\"${properties.getProperty("isTestTCL")}\""
     }
 
     buildTypes {

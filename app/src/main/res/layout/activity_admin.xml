@@ -194,8 +194,9 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <Button
-            android:id="@+id/btnReqOwner"
-            android:layout_width="wrap_content"
+            android:id="@+id/btnRestart"
+            android:layout_marginHorizontal="50dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:layout_marginTop="10dp"
@@ -209,7 +210,8 @@
 
         <Button
             android:id="@+id/btnUninstall"
-            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:layout_marginTop="10dp"
@@ -218,7 +220,47 @@
             android:layout_gravity="center_horizontal"
             android:textAllCaps="false"
             android:text="Desinstalar"
+            tools:ignore="MissingConstraints" />
+        <Button
+            android:id="@+id/btnTransfer"
+            android:layout_marginHorizontal="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/macropay_yellow"
+            android:textColor="@color/macropay_blue"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="false"
+            android:text="Tranfer"
+            tools:ignore="MissingConstraints" />
 
+
+        <Button
+            android:id="@+id/btnTestService"
+            android:layout_marginHorizontal="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/macropay_blue"
+            android:textColor="@color/macropay_yellow"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="false"
+            android:text="Test Service"
+            tools:ignore="MissingConstraints" />
+        <Button
+            android:id="@+id/btnTestFRP"
+            android:layout_marginHorizontal="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/macropay_blue"
+            android:textColor="@color/macropay_yellow"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="false"
+            android:text="Test Wipe Data"
             tools:ignore="MissingConstraints" />
     </LinearLayout>
     <!--android:onClick="tester"

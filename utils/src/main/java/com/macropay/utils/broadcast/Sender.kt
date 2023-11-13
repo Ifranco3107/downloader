@@ -21,12 +21,14 @@ object Sender {
     const val ACTION_STATUS_LOCK = "com.macropay.downloader.action.STATUS_LOCK"
     const val ACTION_STATUS_SIM = "com.macropay.downloader.action.STATUS_SIM"
     const val ACTION_STATUS_NETWORK = "com.macropay.downloader.action.STATUS_NETWORK"
-    const val ACTION_START_UPDATER = "com.macropay.dpcmacro.action.START_UPDATER"
-    const val ACTION_END_UPDATER = "com.macropay.dpcmacro.action.END_UPDATER"
     const val ACTION_START_BLOCKED = "com.macropay.downloader.action.START_BLOCKED"
     const val ACTION_END_BLOCKED = "com.macropay.downloader.action.END_BLOCKED"
     const val ACTION_HTTP_ERROR = "com.macropay.downloader.action.HTTP_ERROR"
     val ACTION_STATUS_ENROLLMENT = "com.macropay.downloader.action.STATUS_ENROLLMENT"
+
+    //Mensajes enviades desde Macrolock
+    const val ACTION_START_UPDATER = "com.macropay.dpcmacro.action.START_UPDATER"
+    const val ACTION_END_UPDATER = "com.macropay.dpcmacro.action.END_UPDATER"
     const val ACTION_TEST = "com.macropay.downloader.action.TEST"
 
 

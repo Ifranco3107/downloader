@@ -72,8 +72,10 @@ class Restrictions
         mDevicePolicyManager.setGlobalSetting(mAdminComponentName, Settings.Global.USB_MASS_STORAGE_ENABLED, value)
     }
 
-    fun liberaRestricciones() {
-        val userRestrictions = mDevicePolicyManager.getUserRestrictions(mAdminComponentName)
+    fun isEnabled(restriction: String): Boolean {
+        val userRestrictions2 = mDevicePolicyManager.getUserRestrictions(mAdminComponentName)
+        val userRestrictions = mUserManager.getUserRestrictions()
+        return !userRestrictions.getBoolean(restriction, false);
     }
 
     fun Reboot() {

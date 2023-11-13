@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.UserManager
-import android.view.View
 import com.macropay.data.logs.ErrorMgr
 import com.macropay.data.logs.Log
 import com.macropay.data.preferences.Defaults
@@ -215,45 +214,44 @@ fun unInstall2(packageName: String){
 
     //
     fun terminoInstallApp( packageName: String?) {
-    //Marca como Instalada la Aplicacion..
-    Log.msg(TAG,"[terminoInstallApp] Termino de instalar las apps.")
-    try {
-        setAsInstalled(packageName)
-        //   String packageName = intent.getStringExtra("packageName");
-        var bAllInstalled = false
-        bAllInstalled = areAllAppsInstalled()
-        Log.msg(TAG, "[terminoInstallApp] [$packageName] bAllInstalled: $bAllInstalled isReboot(): $isReboot")
-        Log.msg(TAG,"[terminoInstallApp] -1- bAllInstalled: "+bAllInstalled)
-        if (!bAllInstalled) {
-            Log.msg(TAG,"[terminoInstallApp] -1- Aun no termina de descargar apps. ")
-            return
-        }
+        //Marca como Instalada la Aplicacion..
+        Log.msg(TAG,"[terminoInstallApp] Termino de instalar las apps.")
+        try {
+            setAsInstalled(packageName)
+            //   String packageName = intent.getStringExtra("packageName");
+            var bAllInstalled = false
+            bAllInstalled = areAllAppsInstalled()
+            Log.msg(TAG, "[terminoInstallApp] [$packageName] bAllInstalled: $bAllInstalled isReboot(): $isReboot")
+            Log.msg(TAG,"[terminoInstallApp] -1- bAllInstalled: "+bAllInstalled)
+            if (!bAllInstalled) {
+                Log.msg(TAG,"[terminoInstallApp] -1- Aun no termina de descargar apps. ")
+                return
+            }
 
-        //Asigna permisos para no desInstalar.
-        if (Settings.getSetting(TipoBloqueo.disable_uninstall_bussines_apps, false)) {
-            //Bloquea que se pueda desinstalar.
-            bloqueaUninstall(packageName)
-        }
-
-
-        //- - - - - - - - - - - - - - - -
-        // termino de instalar...
-        //- - - - - - - - - - - - - - - -
-        Log.msg(TAG,"[terminoInstallApp] -2- Termino de instalar la app. ")
+            //Asigna permisos para no desInstalar.
+            if (Settings.getSetting(TipoBloqueo.disable_uninstall_bussines_apps, false)) {
+                //Bloquea que se pueda desinstalar.
+                bloqueaUninstall(packageName)
+            }
 
 
-        //Limpia la lista de apps para install.
-        appsToInstall.clear()
-        restoreRestrictionUnknowResources()
-        clean("terminoInstallApp")
-        //--
-        val handlerLock = Handler(Looper.getMainLooper())
-        handlerLock.postDelayed({
-            Log.msg(TAG,"[terminoInstallApp]  va tranferir control")
-            transferCtrl.transfer("com.macropay.dpcmacro")
-        }, 3_000)
+            //- - - - - - - - - - - - - - - -
+            // termino de instalar...
+            //- - - - - - - - - - - - - - - -
+            Log.msg(TAG,"[terminoInstallApp] -2- Termino de instalar la app. ")
 
 
+            //Limpia la lista de apps para install.
+            appsToInstall.clear()
+            restoreRestrictionUnknowResources()
+            clean("terminoInstallApp")
+            //--
+//TODO:11Nov -comentado temporalmente para probar con la TCL
+            //    Log.msg(TAG,"[terminoInstallApp]  va tranferir control")
+            //    transferCtrl.transfer("com.macropay.dpcmacro")
+
+
+         //   val mDevicePolicyManagerGateway: DevicePolicyManagerGateway? = null
         } catch (ex: Exception) {
             ErrorMgr.guardar(TAG, "terminoInstallApp", ex.message)
         }

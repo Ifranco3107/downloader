@@ -108,6 +108,17 @@ class UpdateSystem
         }
         return bResult
     }
+
+    fun unInstallManual(packageName: String){
+        try{
+            Log.msg(TAG, "[unInstallManual] +*-+*-+*-+*-+*-+*-+*-+*-+*-+*-+*-+*-+*-+*-+*-+*-+*-+*-")
+            Log.msg(TAG, "[unInstallManual] packageName: [$packageName]")
+            packageService.uninstallManual(packageName)
+        } catch (ex: Exception) {
+            ErrorMgr.guardar(TAG, "uninstall2", ex.message)
+
+        }
+    }
     private fun setParameters(apkDPC: ApkInfoRequest): PersistableBundle {
         var imei = ""
         var idCliente = ""

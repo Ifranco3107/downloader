@@ -64,7 +64,7 @@ android {
         buildConfigField "String","pr_clientId","\"${properties.getProperty("pr_clientId")}\""
 
         buildConfigField "String","isFase7","\"${properties.getProperty("isFase7")}\""
-
+        buildConfigField "String","isTestTCL","\"${properties.getProperty("isTestTCL")}\""
     }
 
     buildTypes {

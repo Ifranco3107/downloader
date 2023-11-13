@@ -8,14 +8,17 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.wifi.WifiManager
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
+import android.os.UserManager
 import android.telephony.TelephonyManager
 import android.view.View
 import android.widget.Toast
+import com.macropay.data.BuildConfig
 import com.macropay.data.dto.request.EventMQTT
 import com.macropay.data.logs.ErrorMgr
 import com.macropay.data.preferences.Defaults
@@ -25,6 +28,7 @@ import com.macropay.downloader.R
 import com.macropay.downloader.databinding.ActivityAdminBinding
 import com.macropay.downloader.di.Inject.inject
 import com.macropay.downloader.domain.usecases.manual.InstallerDPC
+import com.macropay.downloader.domain.usecases.manual.TransferCtrl
 import com.macropay.downloader.receivers.NetworkReceiver
 import com.macropay.downloader.ui.common.mensajes.ToastDPC
 import com.macropay.downloader.ui.provisioning.GetEnrollRestrictions
@@ -32,6 +36,7 @@ import com.macropay.downloader.ui.provisioning.QueryEnrollStatus
 import com.macropay.downloader.utils.Settings
 import com.macropay.downloader.utils.Utils
 import com.macropay.downloader.utils.device.DeviceService
+import com.macropay.downloader.utils.policies.FactoryReset
 import com.macropay.utils.broadcast.Sender
 import com.macropay.utils.logs.Log
 import com.macropay.utils.network.Red
@@ -48,6 +53,10 @@ class AdminActivity
 @Inject constructor(): GetEnrollRestrictions(), View.OnClickListener {
     lateinit var  binding: ActivityAdminBinding
     private val TAG = "AdminActivity"
+
+    @Inject
+    lateinit var transferCtrl: TransferCtrl
+
     val DEVICE_ADMIN_ADD_RESULT_ENABLE = 1238
     var contTimeout = 0
     var ctx :Context? = null
@@ -65,43 +74,78 @@ class AdminActivity
         binding = ActivityAdminBinding.inflate(layoutInflater)
         val view: View = binding.getRoot()
         setContentView(view)
-        listeners()
-        this.ctx = this
+        try{
+            this.ctx = this
+            if(Utils.isDeviceOwner(this))
+            {
+                avoidSystemError()
+            }
 
-        caracteristicas()
-        binding.txtStatus.text = "Requiriendo permisos..."
-        loadSettings()
-       // iniciar()
-        initProcess()
+            caracteristicas()
+            binding.txtStatus.text = "Requiriendo permisos..."
+            loadSettings()
+            listeners()
+           // iniciar()
+            initProcess()
+        }catch (ex:Exception){
+            ErrorMgr.guardar(TAG,"onCreate",ex.message)
+        }
     }
     private fun listeners() {
-        binding!!.btnReqOwner.setOnClickListener(this)
-        binding!!.btnDescargar.setOnClickListener(this)
-        binding!!.txtAndroidVersion.setOnClickListener(this)
-        binding!!.txtStatus.setOnClickListener(this)
-        binding!!.btnUninstall.setOnClickListener(this)
+        try{
+            binding!!.btnRestart.setOnClickListener(this)
+            binding!!.btnDescargar.setOnClickListener(this)
+            binding!!.txtAndroidVersion.setOnClickListener(this)
+            binding!!.txtStatus.setOnClickListener(this)
+            if(BuildConfig.isTestTCL =="true"){
+                binding!!.btnRestart.visibility =  View.GONE
+                binding!!.btnUninstall.visibility =  View.GONE
+                binding!!.btnTransfer.visibility =  View.GONE
+                binding!!.btnTestService.setOnClickListener(this)
+                binding!!.btnTestFRP.setOnClickListener(this)
+                isFRPEnabled()
+            }else{
+                binding!!.btnTestService.visibility =  View.GONE
+                binding!!.btnTestFRP.visibility =  View.GONE
+                binding!!.btnUninstall.setOnClickListener(this)
+                binding!!.btnTransfer.setOnClickListener(this)
+            }
+            if( Settings.getSetting(Cons.KEY_IS_SERVICE_RUNNING,false)){
+                binding!!.txtMarca.text = "Servicio Corriendo OK"
+            }else
+            {
+                binding!!.txtMarca.text = "Servicio no se levanto correctamente"
+            }
+        }catch (ex:Exception){
+            ErrorMgr.guardar(TAG,"listeners",ex.message)
+        }
     }
-    private fun loadSettings(){
-        Settings.setSetting(Cons.KEY_APPLICATIVE,"downloader")
-        Settings.setSetting(Cons.KEY_SUBSIDIARY,"macropay")
-        Settings.setSetting(Cons.KEY_EMPLOYEE,"134567")
-        Settings.setSetting(Cons.KEY_ENROLL_SOURCE,"manual")
-        Settings.setSetting(Cons.KEY_HTTP_SERVER, Defaults.SERVIDOR_HTTP2_DEV)
-        Settings.setSetting(Cons.KEY_HTTP_SERVER_PKG, Defaults.SERVIDOR_HTTP_PKG)
-        Settings.setSetting(Cons.KEY_HTTP_SERVER_RPT, Defaults.SERVIDOR_HTTP_RPT)
-
+    private fun loadSettings(){/**/
+        try{
+            Settings.setSetting(Cons.KEY_APPLICATIVE,"downloader")
+            Settings.setSetting(Cons.KEY_SUBSIDIARY,"macropay")
+            Settings.setSetting(Cons.KEY_EMPLOYEE,"134567")
+            Settings.setSetting(Cons.KEY_ENROLL_SOURCE,"manual")
+            Settings.setSetting(Cons.KEY_HTTP_SERVER, Defaults.SERVIDOR_HTTP2_DEV)
+            Settings.setSetting(Cons.KEY_HTTP_SERVER_PKG, Defaults.SERVIDOR_HTTP_PKG)
+            Settings.setSetting(Cons.KEY_HTTP_SERVER_RPT, Defaults.SERVIDOR_HTTP_RPT)
+        }catch (ex:Exception){
+            ErrorMgr.guardar(TAG,"loadSettings",ex.message)
+        }
     }
     private fun initProcess(){
-       // com.macropay.data.logs.Log.msg(TAG,"[onCreate] bateria $battery% - mayor de $levelMinimo%")
-        enrollStatus()
-        receiverStatus()
-        registerNetworkReceiver()
-        setTimeoutEvent()
+        try{
+           // com.macropay.data.logs.Log.msg(TAG,"[onCreate] bateria $battery% - mayor de $levelMinimo%")
+            enrollStatus()
+            receiverStatus()
+            registerNetworkReceiver()
+            setTimeoutEvent()
 
-        // Las restricciones se leen hasta que recibe el mensaje de DeviceReceiver, cuando ya se establecio el Device Owner
-       // iniciaEnroll(null)
+        }catch (ex:Exception){
+            ErrorMgr.guardar(TAG,"initProcess",ex.message)
+        }
     }
-    fun iniciaEnroll(v:View?){
+/*    fun iniciaEnroll(v:View?){
         Log.msg(TAG,"leerRestricciones")
         try{
             val handlerLock = Handler(Looper.getMainLooper())
@@ -118,7 +162,7 @@ class AdminActivity
         }catch (ex:Exception){
             ErrorMgr.guardar(TAG,"leerRestricciones",ex.message)
         }
-    }
+    }*/
     fun enrollStatus(){
         this!!.setOnDownloadStatus(  object: QueryEnrollStatus {
             override fun onSuccess(body: EventMQTT) {
@@ -160,6 +204,9 @@ class AdminActivity
             filter.addAction(Sender.ACTION_HTTP_ERROR)
             filter.addAction(Sender.ACTION_STATUS_ENROLLMENT)
             filter.addAction(Sender.ACTION_STATUS_NETWORK)
+
+            //
+            filter.addAction(Sender.ACTION_START_UPDATER)
             filter.addAction(Sender.ACTION_END_UPDATER)
             registerReceiver(mStatusReceiver, filter, "com.macropay.downloader.enrollstatus",null)
         }catch (ex:Exception){
@@ -286,7 +333,7 @@ class AdminActivity
     override fun onClick(v: View?) {
         try {
             when (v!!.id) {
-                R.id.btnReqOwner -> {
+                R.id.btnRestart -> {
                     //No se usa..
                     //reqOwner( )
                     showDlgRequiereOwner()
@@ -302,6 +349,20 @@ class AdminActivity
                 }
                 R.id.btnUninstall->{
                     desinstallar()
+                }
+                R.id.btnTransfer ->{
+                    transfer()
+                }
+
+                R.id.btnTestService ->{
+                    if(!Utils.isDeviceOwner(this)) {
+                        ToastDPC.showPolicyRestriction(this.applicationContext,"Test Service","No es adminitrador ...")
+                        return
+                    }
+                    System.exit(0)
+                }
+                R.id.btnTestFRP ->{
+                    enableFRP()
                 }
                 else->{}
             }
@@ -501,6 +562,35 @@ class AdminActivity
             ErrorMgr.guardar(TAG, "desinstallar", ex.message)
         }
     }
+
+    fun transfer(){
+       Log.msg(TAG,"[transfer]  va tranferir control")
+        transferCtrl.transfer("com.macropay.dpcmacro")
+    }
+
+    fun enableFRP(){
+        if(!Utils.isDeviceOwner(this)) {
+            ToastDPC.showPolicyRestriction(this.applicationContext,"FRP","No es adminitrador ...")
+            return
+        }
+        var bEnabled= isFRPEnabled()
+        var factory =FactoryReset(this)
+        factory.setProtection(!bEnabled)
+        com.macropay.data.logs.Log.msg(TAG, "[enableFRP] disableFRPPost 1")
+        restrinctions.setRestriction(UserManager.DISALLOW_FACTORY_RESET, !bEnabled)
+
+    }
+    fun isFRPEnabled():Boolean{
+
+        var  bEnabled = restrinctions. isEnabled(UserManager.DISALLOW_FACTORY_RESET)
+        if (bEnabled){
+            binding.btnTestFRP.text = "Habilitar FRP"
+        }else
+        {
+            binding.btnTestFRP.text = "Deshabilitar FRP"
+        }
+        return bEnabled
+    }
     fun reqOwner() {
         val bIsAdmin = Utils.isDeviceOwner(this)
         Log.msg(TAG,"[reqOwner] bIsAdmin")
@@ -524,5 +614,19 @@ class AdminActivity
             Log.msg(TAG, "Pide el OWER al DPC")
             Utils.sendRemoteCommand(this, 1, "10", "200")
         }*/
+    }
+
+
+    fun avoidSystemError() {
+        com.macropay.data.logs.Log.msg(TAG,"[avoidSystemError]")
+        try{
+           // val versionName = packageService.dpcVersionName()
+           // val enabled = !versionName.contains("dbg")
+            com.macropay.data.logs.Log.msg(TAG,"[avoidSystemError] ")
+
+            restrinctions.setRestriction(UserManager.DISALLOW_SYSTEM_ERROR_DIALOGS, true)
+        }catch (ex:Exception){
+            ErrorMgr.guardar(TAG,"avoidSystemError*",ex.message)
+        }
     }
 }

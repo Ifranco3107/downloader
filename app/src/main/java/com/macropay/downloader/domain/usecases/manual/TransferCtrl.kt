@@ -37,10 +37,10 @@ class TransferCtrl
             handler.postDelayed({
                 Log.msg(TAG, "[transfer] va transferir owner.")
                 val bundle: PersistableBundle = getParameters()
-
                 //UpdateDPC(packageTarget,bundle)
                 transferControl(packageTarget,bundle)
-            }, 2_000)
+            Log.msg(TAG, "[transfer] transfirio owner.")
+            }, 3_000)
         } catch (ex: Exception) {
             ErrorMgr.guardar(TAG, "transfer", ex.message)
         }
@@ -62,24 +62,25 @@ class TransferCtrl
             return
         }
         ln = 2
-
+        Log.msg(TAG, "[transferControl] -1-")
         //NOTA:  ACTION_APPLICATION_DELEGATION_SCOPES_CHANGED
         // Aunque se pase el control al updater, sigue vivo el DPC, el Timer sigue funcionando.
         try {
             val dpm = context.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
-
+            Log.msg(TAG, "[transferControl] -2-")
             dpm.transferOwnership(
                 ComponentName(source, "$source.DeviceAdminReceiver"),
                 ComponentName(target, "$target.DeviceAdminReceiver"),
                 bundle
             )
+            Log.msg(TAG, "[transferControl] -3-")
             ln = 5
             Log.msg(TAG, "[transferControl]+++++++++++++++++++++++++++++++++++++++++++++++++")
             Log.msg(TAG, "[transferControl]++++++++++++[ TRANSFIRIO CONTROL ]++++++++++++++++")
             Log.msg(TAG, "[transferControl]--[$source] -----> [$target]")
             Log.msg(TAG, "[transferControl]+++++++++++++++++++++++++++++++++++++++++++++++++")
             isOwner()
-        } catch (ex: java.lang.Exception) {
+        } catch (ex: Exception) {
             ErrorMgr.guardar(TAG, "transferControl ln:[$ln]", ex.message)
         }
     }
@@ -174,7 +175,7 @@ DELEGATION_PERMISSION_GRANT,
             val appkeymobile =  Settings.getSetting(Cons.KEY_APIKEYMOBILE,Defaults.API_KEY)
             val enrollSource =  Settings.getSetting(Cons.KEY_ENROLL_SOURCE,Defaults.ENROLL_SOURCE)
             val dpc_package = Settings.getSetting(Cons.KEY_PACKAGENAME_DPC,Defaults.DPC_PACKAGENAME)
-            val dpc_location = Settings.getSetting(Cons.KEY_PACKAGENAME_DPC,Defaults.DPC_LOCATION)
+            val dpc_location = Settings.getSetting(Cons.KEY_LOCATION_DPC,Defaults.DPC_LOCATION)
             val restrictioms= Settings.getSetting(Cons.KEY_RESTRICTIONS,"")
             lObjPersistableBundle.putString("server", serverHttp)
             lObjPersistableBundle.putString("server_pkg", pkgServer)

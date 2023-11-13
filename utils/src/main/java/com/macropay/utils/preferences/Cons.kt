@@ -141,7 +141,7 @@ object Cons {
 
     val PERMISSIONS_NETWORK = "com.macropay.downloader.network"
     val PERMISSIONS_DOWNLOADER = "com.macropay.downloader.downloder"
-
+    const val KEY_IS_SERVICE_RUNNING = "is_service_running"
     //COGNITO
     const val KEY_COGNITO_USERNAME = "username"
     const val KEY_COGNITO_ID_TOKEN = "idToken"

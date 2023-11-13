@@ -51,7 +51,7 @@ class MainApp: Application(){
             Log.msg(TAG,"[onCreate] ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
             Log.msg(TAG,"[onCreate] +++            < Inicializa la Aplicacion DOWNLOAD >            +++")
             Log.msg(TAG,"[onCreate] ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-
+Settings.setSetting(Cons.KEY_IS_SERVICE_RUNNING,false)
             //Loguea informacion del dispositivo y de Status de la App.
             LogInfoDevice.deviceInfo(applicationContext)
             LogInfoDevice.statusApp(applicationContext)

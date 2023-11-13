@@ -83,7 +83,7 @@ class InstallerDPC
         var bResult = false
         try {
             //if (Utils.isDeviceOwner(context)   ) {
-            updateSystem.uninstall(this.context.packageName)
+            updateSystem.unInstallManual(this.context.packageName)
             bResult = true
             //}
         } catch (ex: Exception) {

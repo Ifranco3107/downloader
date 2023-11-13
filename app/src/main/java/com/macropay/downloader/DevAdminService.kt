@@ -3,11 +3,13 @@ package com.macropay.downloader
 
 import android.app.admin.DeviceAdminService
 import android.content.Intent
+import com.macropay.data.BuildConfig
 import com.macropay.utils.preferences.Cons
 import com.macropay.downloader.utils.Settings
 import com.macropay.data.logs.ErrorMgr
 import com.macropay.data.logs.Log
 import com.macropay.downloader.domain.usecases.main.StartDPC
+import com.macropay.downloader.ui.common.mensajes.ToastDPC
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 @AndroidEntryPoint
@@ -20,9 +22,14 @@ class DevAdminService
     override fun onCreate() {
         super.onCreate()
         try{
-            Log.msg(TAG,"[onCreate]")
-            Settings.setSetting(Cons.KEY_DEVICE_ADMIN_ENABLED,true)
-            startDPC.start()
+            Settings.setSetting(Cons.KEY_IS_SERVICE_RUNNING,true)
+            if(BuildConfig.isTestTCL.equals("true")){
+                ToastDPC.showPolicyRestriction(this.applicationContext,"BackgroundService","Si esta Funcionando el Servicio...")
+            }else{
+                Log.msg(TAG,"[onCreate]")
+                Settings.setSetting(Cons.KEY_DEVICE_ADMIN_ENABLED,true)
+                startDPC.start()
+            }
         }catch (ex:Exception){
             ErrorMgr.guardar(TAG,"onCreate",ex.message)
         }

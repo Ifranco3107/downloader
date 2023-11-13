@@ -300,7 +300,7 @@ class PackageService
 
 
     //
-fun uninstall2(packageName: String){
+fun uninstallManual(packageName: String){
     try{
 
         val uri: Uri = Uri.fromParts("package", packageName, null)
@@ -308,7 +308,7 @@ fun uninstall2(packageName: String){
         uninstallIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         mContext!!.startActivity(uninstallIntent)
     }catch (ex:Exception){
-        ErrorMgr.guardar(TAG, "uninstall2", ex.message)
+        ErrorMgr.guardar(TAG, "uninstallManual", ex.message)
     }
 }
     fun suspendApps(arrPackages: Array<String>, mEnabled: Boolean) {
