@@ -74,8 +74,14 @@ class Restrictions
 
     fun isEnabled(restriction: String): Boolean {
         val userRestrictions2 = mDevicePolicyManager.getUserRestrictions(mAdminComponentName)
+        var bEnabled2 =  userRestrictions2.getBoolean(restriction,false)
+        Log.msg(TAG,"[isEnabled] $restriction :  $bEnabled2")
+
+
         val userRestrictions = mUserManager.getUserRestrictions()
-        return !userRestrictions.getBoolean(restriction, false);
+        val bEnabled= userRestrictions.getBoolean(restriction, false);
+        Log.msg(TAG,"[isEnabled] $restriction => $bEnabled")
+        return bEnabled
     }
 
     fun Reboot() {

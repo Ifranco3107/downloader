@@ -4,23 +4,23 @@ import android.app.Application
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import com.macropay.data.logs.ErrorMgr
+import com.macropay.data.logs.Log
+import com.macropay.downloader.data.preferences.TipoBloqueo
 import com.macropay.downloader.domain.usecases.main.DPCAplication
+import com.macropay.downloader.domain.usecases.main.StartDPC
 import com.macropay.downloader.domain.usecases.provisioning.ProvisioningManual
 import com.macropay.downloader.utils.Settings
 import com.macropay.downloader.utils.SettingsApp
-import com.macropay.data.logs.ErrorMgr
-
-import com.macropay.data.logs.Log
-import com.macropay.downloader.data.preferences.TipoBloqueo
-import com.macropay.downloader.domain.usecases.main.StartDPC
-import com.macropay.downloader.utils.Utils
 import com.macropay.downloader.utils.activities.Dialogs
 import com.macropay.downloader.utils.device.DeviceService
 import com.macropay.downloader.utils.logs.LogInfoDevice
 import com.macropay.utils.preferences.Cons
 import dagger.hilt.android.HiltAndroidApp
-import kotlinx.coroutines.*
-import java.time.LocalDateTime
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -32,8 +32,20 @@ class MainApp: Application(){
     @Inject
     lateinit var   startDPC: StartDPC
 
+
+
+    override fun getApplicationContext(): Context {
+        return super.getApplicationContext()
+    }
+
+    companion object {
+        private var mContext: Context? = null
+        var instance: MainApp? = null
+    }
     override fun onCreate() {
         super.onCreate()
+        mContext = applicationContext
+        instance = this
         try{
            // System.out.println("MainApp, inicio....******************************")
             Auxiliares.init(applicationContext)
@@ -60,7 +72,7 @@ Settings.setSetting(Cons.KEY_IS_SERVICE_RUNNING,false)
             Thread.setDefaultUncaughtExceptionHandler( DefaultExceptionHandler(applicationContext))
 
             //Asegura que se levante el Servicio de DeviceAdminService
-            ensureAdminService()
+          //Todo:14Nov2023 verificar si se usa  ensureAdminService()
             Log.msg(TAG,"[onCreate] ++++++++++++++++++++< Termino > ++++++++++++++++++++++++++++++++++++++")
         }catch (ex:Exception){
             System.out.println(TAG +"[onCreate], ERROR: "+ex.message)
@@ -170,4 +182,21 @@ Settings.setSetting(Cons.KEY_IS_SERVICE_RUNNING,false)
         }
     }
 
+}
+
+class ApplicationClass : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        mContext = applicationContext
+        instance = this
+    }
+
+    override fun getApplicationContext(): Context {
+        return super.getApplicationContext()
+    }
+
+    companion object {
+        private var mContext: Context? = null
+        var instance: ApplicationClass? = null
+    }
 }

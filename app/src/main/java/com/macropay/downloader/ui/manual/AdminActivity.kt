@@ -23,6 +23,7 @@ import com.macropay.data.dto.request.EventMQTT
 import com.macropay.data.logs.ErrorMgr
 import com.macropay.data.preferences.Defaults
 import com.macropay.downloader.Auxiliares
+import com.macropay.downloader.DefaultExceptionHandler
 import com.macropay.downloader.DeviceAdminReceiver
 import com.macropay.downloader.R
 import com.macropay.downloader.databinding.ActivityAdminBinding
@@ -76,17 +77,19 @@ class AdminActivity
         setContentView(view)
         try{
             this.ctx = this
-            if(Utils.isDeviceOwner(this))
-            {
-                avoidSystemError()
+            if(Utils.isDeviceOwner(this)) {
+              //  avoidSystemError()
             }
 
             caracteristicas()
-            binding.txtStatus.text = "Requiriendo permisos..."
+
             loadSettings()
             listeners()
            // iniciar()
-            initProcess()
+            if(!BuildConfig.isTestTCL.equals("true")){
+                initProcess()
+            }
+
         }catch (ex:Exception){
             ErrorMgr.guardar(TAG,"onCreate",ex.message)
         }
@@ -101,14 +104,20 @@ class AdminActivity
                 binding!!.btnRestart.visibility =  View.GONE
                 binding!!.btnUninstall.visibility =  View.GONE
                 binding!!.btnTransfer.visibility =  View.GONE
+                binding!!.cpPbar.visibility =  View.GONE
                 binding!!.btnTestService.setOnClickListener(this)
                 binding!!.btnTestFRP.setOnClickListener(this)
+                binding!!.btnTestError.setOnClickListener(this)
+
                 isFRPEnabled()
+                isErrorEnabled()
             }else{
                 binding!!.btnTestService.visibility =  View.GONE
                 binding!!.btnTestFRP.visibility =  View.GONE
+                binding!!.btnTestError.visibility =  View.GONE
                 binding!!.btnUninstall.setOnClickListener(this)
                 binding!!.btnTransfer.setOnClickListener(this)
+                binding.txtStatus.text = "Requiriendo permisos..."
             }
             if( Settings.getSetting(Cons.KEY_IS_SERVICE_RUNNING,false)){
                 binding!!.txtMarca.text = "Servicio Corriendo OK"
@@ -355,14 +364,13 @@ class AdminActivity
                 }
 
                 R.id.btnTestService ->{
-                    if(!Utils.isDeviceOwner(this)) {
-                        ToastDPC.showPolicyRestriction(this.applicationContext,"Test Service","No es adminitrador ...")
-                        return
-                    }
-                    System.exit(0)
+                    testService()
                 }
                 R.id.btnTestFRP ->{
                     enableFRP()
+                }
+                R.id.btnTestError ->{
+                    enableError()
                 }
                 else->{}
             }
@@ -573,23 +581,70 @@ class AdminActivity
             ToastDPC.showPolicyRestriction(this.applicationContext,"FRP","No es adminitrador ...")
             return
         }
-        var bEnabled= isFRPEnabled()
+        var  bEnabled = restrinctions. isEnabled(UserManager.DISALLOW_FACTORY_RESET)
+
         var factory =FactoryReset(this)
         factory.setProtection(!bEnabled)
-        com.macropay.data.logs.Log.msg(TAG, "[enableFRP] disableFRPPost 1")
+        Log.msg(TAG, "[enableFRP] disableFRPPost 1")
         restrinctions.setRestriction(UserManager.DISALLOW_FACTORY_RESET, !bEnabled)
-
+        isFRPEnabled()
     }
     fun isFRPEnabled():Boolean{
-
         var  bEnabled = restrinctions. isEnabled(UserManager.DISALLOW_FACTORY_RESET)
+        Log.msg(TAG,"[isFRPEnabled] -------------------------------------------------")
+        Log.msg(TAG,"[isFRPEnabled] isFRPEnabled: $bEnabled")
         if (bEnabled){
-            binding.btnTestFRP.text = "Habilitar FRP"
-        }else
-        {
             binding.btnTestFRP.text = "Deshabilitar FRP"
+            binding.txtStatus.text = "WipeData Recovery - HABILITADO"
+
+        }else {
+            binding.btnTestFRP.text = "Habilitar FRP"
+            binding.txtStatus.text = "WipeData Recovery - Dehabilitado"
         }
         return bEnabled
+    }
+
+    fun enableError(){
+        if(!Utils.isDeviceOwner(this)) {
+            ToastDPC.showPolicyRestriction(this.applicationContext,"enableError","No es adminitrador ...")
+            return
+        }
+        var  bEnabled = restrinctions. isEnabled(UserManager.DISALLOW_SYSTEM_ERROR_DIALOGS)
+        Log.msg(TAG, "[enableError]  bEnabled: $bEnabled")
+        avoidSystemError(!bEnabled)
+        isErrorEnabled()
+    }
+    fun isErrorEnabled():Boolean{
+        var  bEnabled = restrinctions. isEnabled(UserManager.DISALLOW_SYSTEM_ERROR_DIALOGS)
+        Log.msg(TAG,"[isErrorEnabled] -----------------< Estado actual: $bEnabled >--------------------------------")
+        if (bEnabled){
+            binding.btnTestError.text = "Deshabilitar System Error"
+        }else {
+            binding.btnTestError.text = "Habilitar System Error"
+        }
+        return bEnabled
+    }
+    fun testService(){
+        if(!Utils.isDeviceOwner(this)) {
+            ToastDPC.showPolicyRestriction(this.applicationContext,"Test Service","No es adminitrador ...")
+            return
+        }
+
+       val defException=  DefaultExceptionHandler(this)
+        //defException.restartService()
+        //defException.restartActivity()
+
+       System.exit(2)
+    }
+
+
+    fun avoidSystemError(bEnabled:Boolean=true) {
+        Log.msg(TAG,"[avoidSystemError] va a asignar: bEnabled: $bEnabled")
+        try{
+            restrinctions.setRestriction(UserManager.DISALLOW_SYSTEM_ERROR_DIALOGS, bEnabled)
+        }catch (ex:Exception){
+            ErrorMgr.guardar(TAG,"avoidSystemError*",ex.message)
+        }
     }
     fun reqOwner() {
         val bIsAdmin = Utils.isDeviceOwner(this)
@@ -617,16 +672,4 @@ class AdminActivity
     }
 
 
-    fun avoidSystemError() {
-        com.macropay.data.logs.Log.msg(TAG,"[avoidSystemError]")
-        try{
-           // val versionName = packageService.dpcVersionName()
-           // val enabled = !versionName.contains("dbg")
-            com.macropay.data.logs.Log.msg(TAG,"[avoidSystemError] ")
-
-            restrinctions.setRestriction(UserManager.DISALLOW_SYSTEM_ERROR_DIALOGS, true)
-        }catch (ex:Exception){
-            ErrorMgr.guardar(TAG,"avoidSystemError*",ex.message)
-        }
-    }
 }

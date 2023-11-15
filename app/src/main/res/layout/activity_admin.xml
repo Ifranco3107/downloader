@@ -235,7 +235,19 @@
             android:text="Tranfer"
             tools:ignore="MissingConstraints" />
 
-
+        <Button
+            android:id="@+id/btnTestError"
+            android:layout_marginHorizontal="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/macropay_blue"
+            android:textColor="@color/macropay_yellow"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="false"
+            android:text="Test Error"
+            tools:ignore="MissingConstraints" />
         <Button
             android:id="@+id/btnTestService"
             android:layout_marginHorizontal="50dp"
@@ -255,13 +267,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:backgroundTint="@color/macropay_blue"
             android:textColor="@color/macropay_yellow"
             android:layout_gravity="center_horizontal"
             android:textAllCaps="false"
             android:text="Test Wipe Data"
             tools:ignore="MissingConstraints" />
+
+
     </LinearLayout>
     <!--android:onClick="tester"
 

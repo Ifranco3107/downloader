@@ -38,15 +38,15 @@ android {
         //noinspection ExpiredTargetSdkVersion
         //targetSdkVersion 30
         //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 30 // [30 R Android 11] [31 S Android 12]
+        targetSdkVersion 31 // [30 R Android 11] [31 S Android 12]
 
         //Original 25 OCT-  targetSdkVersion 30/**/
         //IFA  19OCT minSdk 28
         //IFA  19OCT targetSdk 30
         //noinspection ExpiredTargetSdkVersion
 
-        versionCode 28 //Numero de compilacion.
-        versionName "1.0.25 dbg 1311.1615"
+        versionCode 31 //Numero de compilacion.
+        versionName "1.0.25 1411.1730"
 /*
          --------------------------------------------
          **         HISTORICO DE VERSIONES.        **
