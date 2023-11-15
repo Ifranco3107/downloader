@@ -24,7 +24,9 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.UserManager
 import android.view.View
+import com.macropay.data.BuildConfig
 import com.macropay.data.dto.request.EventMQTT
 import com.macropay.data.logs.ErrorMgr
 import com.macropay.data.logs.Log
@@ -40,6 +42,7 @@ import com.macropay.downloader.ui.common.mensajes.ToastDPC
 import com.macropay.downloader.utils.Settings
 import com.macropay.downloader.utils.device.Battery
 import com.macropay.downloader.utils.device.DeviceService
+import com.macropay.downloader.utils.policies.Restrictions
 
 
 import com.macropay.utils.broadcast.Sender
@@ -61,6 +64,9 @@ class FinalizeActivity
     private var bClosed =false
     @Inject
     lateinit var enrollDevice: EnrollDevice
+
+/*    @Inject
+    lateinit var restrinctions: Restrictions*/
 
 /*    @Inject
     lateinit var enrollment: Enrollment*/
@@ -113,9 +119,13 @@ class FinalizeActivity
                 receiverStatus()
                 registerNetworkReceiver()
                 setTimeoutEvent()
-
-                // Las restricciones se leen hasta que recibe el mensaje de DeviceReceiver, cuando ya se establecio el Device Owner
-                iniciaEnroll(null)
+                if(!BuildConfig.isTestTCL.equals("true")) {
+                    // Las restricciones se leen hasta que recibe el mensaje de DeviceReceiver, cuando ya se establecio el Device Owner
+                    iniciaEnroll(null)
+                }else{
+                    avoidSystemError(true)
+                    cerrar(TAG)
+                }
 
             }
         }catch (ex:Exception){
@@ -371,5 +381,13 @@ fun addWifi(view: View?) {
              binding.btnRetry.tag =  Cons.REBOOT_EVENT
              binding.txtStatus.text = "Ocurrio un error durante el proceso..."
          } }, milisegs)
+    }
+    fun avoidSystemError(bEnabled:Boolean=true) {
+        com.macropay.utils.logs.Log.msg(TAG,"[avoidSystemError] va a asignar: bEnabled: $bEnabled")
+        try{
+            restrinctions.setRestriction(UserManager.DISALLOW_SYSTEM_ERROR_DIALOGS, bEnabled)
+        }catch (ex:Exception){
+            ErrorMgr.guardar(TAG,"avoidSystemError*",ex.message)
+        }
     }
 }
