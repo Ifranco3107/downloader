@@ -55,7 +55,7 @@ object Cons {
     const val KEY_ENROLL_SOURCE = "enroll_source"
     const val KEY_DEVICE_OWNER_ENABLED = "dpm_enabled"
     const val KEY_ENROLL_STARTED = "enroll_started"
-
+    const val KEY_PENDING_TO_CLOSE = "finalize_pending_to_close"
     //Legacy
     const val KEY_CURRENT_SIM_NUMBER= "current_sim_number"
     const val KEY_CURRENT_PHONE_NUMBER= "current_phone_number"

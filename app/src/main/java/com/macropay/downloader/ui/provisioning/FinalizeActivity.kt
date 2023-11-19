@@ -15,6 +15,7 @@
  */
 package com.macropay.downloader.ui.provisioning
 
+
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -33,23 +34,21 @@ import com.macropay.data.logs.Log
 import com.macropay.data.usecases.EnrollDevice
 import com.macropay.downloader.Auxiliares
 import com.macropay.downloader.R
-
+import com.macropay.downloader.data.preferences.Status
 import com.macropay.downloader.data.preferences.dpcValues
+import com.macropay.downloader.data.preferences.dpcValues.isProvisioning
 import com.macropay.downloader.databinding.FinalizeActivityBinding
-
 import com.macropay.downloader.receivers.NetworkReceiver
 import com.macropay.downloader.ui.common.mensajes.ToastDPC
 import com.macropay.downloader.utils.Settings
 import com.macropay.downloader.utils.device.Battery
 import com.macropay.downloader.utils.device.DeviceService
-import com.macropay.downloader.utils.policies.Restrictions
-
-
 import com.macropay.utils.broadcast.Sender
 import com.macropay.utils.network.Red
 import com.macropay.utils.phone.DeviceInfo
 import com.macropay.utils.preferences.Cons
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -123,7 +122,12 @@ class FinalizeActivity
                     // Las restricciones se leen hasta que recibe el mensaje de DeviceReceiver, cuando ya se establecio el Device Owner
                     iniciaEnroll(null)
                 }else{
-                    avoidSystemError(true)
+                    if (Build.MANUFACTURER.uppercase(Locale.getDefault()).contains("XIAOMI"))
+                        ToastDPC.showPolicyRestriction(this.applicationContext,"FINALIZE","Termina provisioning")
+
+                   // avoidSystemError(true)
+                    Status.currentStatus = Status.eStatus.TerminoEnrolamiento
+                    Log.msg(TAG,"[onCreate] *** va cerrar... *** ${Status.currentStatus}}")
                     cerrar(TAG)
                 }
 
@@ -196,6 +200,18 @@ class FinalizeActivity
                         showStatus("Leyendo configuración...")
                         provisioning.preInit()
                         queryRestrictions(TAG)
+                        val code = intent.getIntExtra("code",0)
+
+                        Log.msg(TAG,"[mStatusReceiver] code: $code")
+                        if(code == 300){
+                            val pendingClose = Settings.getSetting(Cons.KEY_PENDING_TO_CLOSE,false)
+                            Log.msg(TAG,"[mStatusReceiver] pendingClose: $pendingClose")
+                            if(pendingClose){
+                                Settings.setSetting(Cons.KEY_PENDING_TO_CLOSE,false)
+                                cerrar(TAG)
+                            }
+                        }
+
                     }
                     else -> {
                         Log.msg(TAG,"indinido: "+intent.action)
@@ -248,7 +264,12 @@ class FinalizeActivity
         try {
             bCerrando = true
             this.showSystemUI(window)
-
+            if(!isProvisioning){
+                Log.msg(TAG,"[cerrar] Aun no Termina el provisioning en DeviceAdminReceiver")
+                Settings.setSetting(Cons.KEY_PENDING_TO_CLOSE,true)
+                bCerrando = false
+                return
+            }
 
              binding.txtStatus.text= "Aplicando...."
              Log.msg(TAG, "[cerrar] RESULT_OK")

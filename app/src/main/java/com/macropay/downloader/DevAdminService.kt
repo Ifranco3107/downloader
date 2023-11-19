@@ -8,6 +8,8 @@ import com.macropay.utils.preferences.Cons
 import com.macropay.downloader.utils.Settings
 import com.macropay.data.logs.ErrorMgr
 import com.macropay.data.logs.Log
+import com.macropay.downloader.data.preferences.Status
+import com.macropay.downloader.data.preferences.dpcValues
 import com.macropay.downloader.domain.usecases.main.StartDPC
 import com.macropay.downloader.ui.common.mensajes.ToastDPC
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,11 +24,14 @@ class DevAdminService
     override fun onCreate() {
         super.onCreate()
         try{
+            Log.msg(TAG,"[onCreate] status: ${Status.currentStatus} isProvisioning: ${dpcValues.isProvisioning}")
             Settings.setSetting(Cons.KEY_IS_SERVICE_RUNNING,true)
             if(BuildConfig.isTestTCL.equals("true")){
-                ToastDPC.showPolicyRestriction(this.applicationContext,"BackgroundService","Si esta Funcionando el Servicio...")
+              //  if(dpcValues.isProvisioning)
+                if(Status.currentStatus == Status.eStatus.TerminoEnrolamiento)
+                    ToastDPC.showPolicyRestriction(this.applicationContext,"BackgroundService","Si esta Funcionando el Servicio...")
             }else{
-                Log.msg(TAG,"[onCreate]")
+                Log.msg(TAG,"[onCreate]  startDPC.start() ")
                 Settings.setSetting(Cons.KEY_DEVICE_ADMIN_ENABLED,true)
                 startDPC.start()
             }

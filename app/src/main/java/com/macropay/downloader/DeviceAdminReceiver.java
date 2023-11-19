@@ -29,6 +29,7 @@ import android.os.UserManager;
 import com.macropay.downloader.data.preferences.dpcValues;
 import com.macropay.downloader.di.Inject;
 import com.macropay.downloader.ui.common.mensajes.ToastDPC;
+import com.macropay.utils.broadcast.Sender;
 import com.macropay.utils.preferences.Cons;
 import com.macropay.downloader.domain.usecases.provisioning.Provisioning;
 import com.macropay.downloader.utils.Settings;
@@ -92,6 +93,7 @@ public class DeviceAdminReceiver extends android.app.admin.DeviceAdminReceiver {
                     Log.INSTANCE.msg(TAG, "[onReceive] DEVICE OWNER: "+isOwner);
                     Log.INSTANCE.msg(TAG, "[onReceive] Version: " + Utils.SDK_INT);
                     dpcValues.INSTANCE.setProvisioning(true);
+
                     //TODO: Aqui entra cuando estan las activities de Android 12,
                     // Android 12 [31]
                     if(isOwner){
@@ -106,7 +108,10 @@ public class DeviceAdminReceiver extends android.app.admin.DeviceAdminReceiver {
 
                         Log.INSTANCE.msg(TAG,"[onReceive] Inicia proceso de instalacion... ");
                         //14Sept2023 --
-                        Inject.INSTANCE.inject().getProvision().start(intent);
+                      //  Inject.INSTANCE.inject().getProvision().start(intent);
+
+                        //Solo para notificar que ya termino el Provisioning.
+                        Sender.INSTANCE.sendEnrollProcess(context,true,300,"");
                     }
                     break;
 

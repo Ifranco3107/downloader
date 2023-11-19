@@ -5,6 +5,7 @@ import android.app.admin.DevicePolicyManager
 import android.content.Context
 import android.content.Intent
 import android.os.*
+import com.macropay.data.BuildConfig
 import com.macropay.data.dto.request.EventMQTT
 import com.macropay.data.usecases.EnrollDevice
 import com.macropay.downloader.data.preferences.*
@@ -113,7 +114,7 @@ class Provisioning
 
             leeQRSettings(mContext, intent)
             clearSettings()
-appyPermissions.autoGrant(mContext)
+            appyPermissions.autoGrant(mContext)
 
             Log.msg(TAG, "[start] isEnroladoManual: " + Settings.getSetting("isEnroladoManual", false))
             Log.msg(TAG, "[start] Manufacturer: " + Build.MANUFACTURER.uppercase(Locale.getDefault()))
@@ -134,6 +135,10 @@ appyPermissions.autoGrant(mContext)
                 Log.msg(TAG,"[start] ***********************")
                 Log.msg(TAG,"[start] *   Enrolamiento QR   *")
                 Log.msg(TAG,"[start] ***********************")
+                if(BuildConfig.isTestTCL.equals("true")){
+                    Log.msg(TAG,"[start] es Tester TCL")
+                    return
+                }
                GlobalScope.launch {
                    val success = withContext(Dispatchers.Main){
                        if(!Dialogs.isRunning(context,AdminActivity::class.java)){
