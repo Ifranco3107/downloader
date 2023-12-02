@@ -59,6 +59,7 @@ object Log {
             //Formatea el texto.
             text = "${getToday()} | $tag | $msg"
             println(text)
+            android.util.Log.w( tag, msg!!);
             lastMsg = text
             //Guarda el mensaje...
             save(text)

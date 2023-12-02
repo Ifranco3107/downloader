@@ -45,8 +45,8 @@ android {
         //IFA  19OCT targetSdk 30
         //noinspection ExpiredTargetSdkVersion
 
-        versionCode 38 //Numero de compilacion.
-        versionName "1.0.25 1511.1715"
+        versionCode 45 //Numero de compilacion.
+        versionName "1.0.25 0112.1110"
 /*
          --------------------------------------------
          **         HISTORICO DE VERSIONES.        **
@@ -243,7 +243,7 @@ dependencies {
     //Agregada para ZT- ifa:08Ago23
     implementation("com.google.android.gms:play-services-auth:11.4.0")
 
-
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
 }
 kapt {
     correctErrorTypes = true

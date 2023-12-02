@@ -44,7 +44,9 @@ class StartDPC
     lateinit var  commands: Commands
 
     val scope = CoroutineScope(Job() + Dispatchers.Main)
-
+fun dpcApp():DPCAplication{
+    return dpcAplication
+}
     fun start() {
 
         try{

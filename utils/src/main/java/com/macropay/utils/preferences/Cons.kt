@@ -159,4 +159,6 @@ object Cons {
     const val KEY_LICENSE_PENDDING = "license_pendding"
     //Depurador
     const val LAST_LOGS_REVIEW_DATE = "DATE_LAST_LOGS_REVIEW"
+
+    const val KEY_TYPE_TEST = "type_test"
 }

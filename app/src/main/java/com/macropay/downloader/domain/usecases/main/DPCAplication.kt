@@ -342,10 +342,10 @@ class DPCAplication
             val intent = Intent(context, AlarmReceiver::class.java)
             intent.action = "GPS_ACTION"
             intent.putExtra("KEY_TEST_STRING", "Dato pasado al onReceive()")
-            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
+            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent,  PendingIntent.FLAG_IMMUTABLE)
             // Alarm time - Tiempo de intervalo de ejecucion.
             val timeInterval = 5 * minuto
-            val alarmTime = System.currentTimeMillis() + 5_000L
+            val alarmTime = System.currentTimeMillis() + 3_000L
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmTime, timeInterval, pendingIntent)
         }catch (ex:Exception){
             ErrorMgr.guardar(TAG,"iniciarAlarm",ex.message)

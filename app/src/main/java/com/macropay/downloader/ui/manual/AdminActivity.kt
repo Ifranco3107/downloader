@@ -1,10 +1,12 @@
 package com.macropay.downloader.ui.manual
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.admin.DevicePolicyManager
 import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.wifi.WifiManager
@@ -26,6 +28,7 @@ import com.macropay.downloader.Auxiliares
 import com.macropay.downloader.DefaultExceptionHandler
 import com.macropay.downloader.DeviceAdminReceiver
 import com.macropay.downloader.R
+import com.macropay.downloader.data.preferences.Status
 import com.macropay.downloader.databinding.ActivityAdminBinding
 import com.macropay.downloader.di.Inject.inject
 import com.macropay.downloader.domain.usecases.manual.InstallerDPC
@@ -105,15 +108,23 @@ class AdminActivity
                 binding!!.btnUninstall.visibility =  View.GONE
                 binding!!.btnTransfer.visibility =  View.GONE
                 binding!!.cpPbar.visibility =  View.GONE
+
                 binding!!.btnTestService.setOnClickListener(this)
-                binding!!.btnTestFRP.setOnClickListener(this)
                 binding!!.btnTestError.setOnClickListener(this)
+                binding!!.btnConfError.setOnClickListener(this)
+
+
+                binding!!.btnTestFRP.setOnClickListener(this)
+
+
+
 
                 isFRPEnabled()
                 isErrorEnabled()
             }else{
                 binding!!.btnTestService.visibility =  View.GONE
                 binding!!.btnTestFRP.visibility =  View.GONE
+                binding!!.btnConfError.visibility =  View.GONE
                 binding!!.btnTestError.visibility =  View.GONE
                 binding!!.btnUninstall.setOnClickListener(this)
                 binding!!.btnTransfer.setOnClickListener(this)
@@ -364,12 +375,17 @@ class AdminActivity
                 }
 
                 R.id.btnTestService ->{
-                    testService()
+                    showAlert("Prueba de Servicio","Se va REINICIAR el Telefono,\n y aparecera el mensaje al reiniciar.")
+                    testService(true)
+                }
+                R.id.btnTestError ->{
+                    showAlert("Prueba de Errores","Se CERRARA la app,\n y aparecera el mensaje al reiniciar.")
+                    testService(false)
                 }
                 R.id.btnTestFRP ->{
                     enableFRP()
                 }
-                R.id.btnTestError ->{
+                R.id.btnConfError ->{
                     enableError()
                 }
                 else->{}
@@ -378,6 +394,24 @@ class AdminActivity
             ErrorMgr.guardar(TAG,"onClick",ex.message)
         }
     }
+    fun showAlert(title:String,msg:String){
+        try{
+            val builder: AlertDialog.Builder? = this.let {
+                AlertDialog.Builder(it)
+            }
+
+            builder?.setMessage(msg)!!
+                .setTitle(title)
+
+            val dialog: AlertDialog? = builder?.create()
+            dialog!!.show()
+
+        }catch (ex:Exception){
+            ErrorMgr.guardar(TAG,"showAlert",ex.message)
+        }
+    }
+
+
     fun showDlgRequiereOwner() {
         val msg = "showDlgRequiereOwner"
         Log.msg(TAG, "[showDlgRequiereOwner] AUN no es ADMIN")
@@ -594,13 +628,14 @@ class AdminActivity
         Log.msg(TAG,"[isFRPEnabled] -------------------------------------------------")
         Log.msg(TAG,"[isFRPEnabled] isFRPEnabled: $bEnabled")
         if (bEnabled){
-            binding.btnTestFRP.text = "Deshabilitar FRP"
+            //binding.btnTestFRP.text = "Deshabilitar FRP"
             binding.txtStatus.text = "WipeData Recovery - HABILITADO"
 
         }else {
-            binding.btnTestFRP.text = "Habilitar FRP"
+          //  binding.btnTestFRP.text = "Habilitar FRP"
             binding.txtStatus.text = "WipeData Recovery - Dehabilitado"
         }
+        binding.btnTestFRP.isChecked = bEnabled
         return bEnabled
     }
 
@@ -617,24 +652,39 @@ class AdminActivity
     fun isErrorEnabled():Boolean{
         var  bEnabled = restrinctions. isEnabled(UserManager.DISALLOW_SYSTEM_ERROR_DIALOGS)
         Log.msg(TAG,"[isErrorEnabled] -----------------< Estado actual: $bEnabled >--------------------------------")
-        if (bEnabled){
-            binding.btnTestError.text = "Deshabilitar System Error"
+        binding.btnConfError.isChecked = bEnabled
+/*        if (bEnabled){
+            binding.btnConfError.text = "Deshabilitar System Error"
         }else {
-            binding.btnTestError.text = "Habilitar System Error"
-        }
+            binding.btnConfError.text = "Habilitar System Error"
+        }*/
         return bEnabled
     }
-    fun testService(){
+
+
+
+    fun testService(testService:Boolean){
         if(!Utils.isDeviceOwner(this)) {
             ToastDPC.showPolicyRestriction(this.applicationContext,"Test Service","No es adminitrador ...")
             return
         }
+        val tipoTest = if(testService) "REBOOT" else "RESTART"
+        Log.msg(TAG,"[testService] Status.currentStatus: ${Status.currentStatus}")
 
-       val defException=  DefaultExceptionHandler(this)
-        //defException.restartService()
-        //defException.restartActivity()
+        Log.msg(TAG,"[testService] =================")
+        Log.msg(TAG,"[testService] " +tipoTest)
+        Log.msg(TAG,"[testService] =================")
+        Status.currentStatus = Status.eStatus.TerminoEnrolamiento
+        Settings.setSetting(Cons.KEY_TYPE_TEST,tipoTest)
 
-       System.exit(2)
+        var handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({
+            if(testService){
+                Utils.reboot(this)
+            }else {
+                System.exit(2)
+            }
+        }, 6_000)
     }
 
 

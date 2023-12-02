@@ -10,6 +10,7 @@ import com.macropay.data.logs.Log
 import com.macropay.downloader.utils.app.PackageService
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class AlarmReceiver : HiltBroadcasterReceiver() {
@@ -37,7 +38,10 @@ class AlarmReceiver : HiltBroadcasterReceiver() {
             if (intent.action != "GPS_ACTION") {
                 return;
             }
-/*            monMQTT()
+            Log.msg(TAG, "onReceive -----------------------------------[ exitProcess]")
+           // System.exit(2)
+            exitProcess(2)
+        /*            monMQTT()
             sendPendingTrx()
             lastLocation(contetx)
             checkUnroll(contetx)
