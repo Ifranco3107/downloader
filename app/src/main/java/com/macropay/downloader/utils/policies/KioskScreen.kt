@@ -157,7 +157,7 @@ open class KioskScreen : AppCompatActivity(),ValidarFragment.EditNameDialogListe
             val bIsLockTask = Utils.isLockTaskEnabled(this)
             //
             val isEnabled = Kiosko.enabled
-            Log.msg(TAG, "[onWindowFocusChanged] hasFocus: $hasFocus isEnabled: $isEnabled   bKioskRequired: $bKioskRequired bIsShowed: $bIsShowed bIsLockTask: $bIsLockTask")
+         //   Log.msg(TAG, "[onWindowFocusChanged] hasFocus: $hasFocus isEnabled: $isEnabled   bKioskRequired: $bKioskRequired bIsShowed: $bIsShowed bIsLockTask: $bIsLockTask")
             if (hasFocus && isEnabled && !bIsLockTask) {
                 setLockTask(true)
             }

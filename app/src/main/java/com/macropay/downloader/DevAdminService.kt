@@ -24,18 +24,21 @@ class DevAdminService
     override fun onCreate() {
         super.onCreate()
         try{
-            Log.msg(TAG,"[onCreate] status: ${Status.currentStatus} isProvisioning: ${dpcValues.isProvisioning}")
+
+            Log.msg(TAG, "[onCreate] *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
+            Log.msg(TAG, "[onCreate] *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
+            Log.msg(TAG, "[onCreate] status: ${Status.currentStatus} isProvisioning: ${dpcValues.isProvisioning}")
+            Log.msg(TAG, "[onCreate] *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
+            Log.msg(TAG, "[onCreate] *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
             Settings.setSetting(Cons.KEY_IS_SERVICE_RUNNING,true)
             if(BuildConfig.isTestTCL.equals("true")){
-              //  if(dpcValues.isProvisioning)
                 if(Status.currentStatus == Status.eStatus.TerminoEnrolamiento){
                     val tipoTest = Settings.getSetting(Cons.KEY_TYPE_TEST,"SERVICE")
                     Log.msg(TAG,"[onCreate] tipoTest: $tipoTest")
-                   val msg = if(tipoTest.equals("REBOOT"))  "SERVICIO" else "CONTROL ERRORES"
+                    val msg = if(tipoTest.equals("REBOOT"))  "SERVICIO" else "CONTROL ERRORES"
                     ToastDPC.showPolicyRestriction(this.applicationContext,"Verificación del $msg","Si esta Funcionando correctamente...")
-                    startDPC.dpcApp().iniciarAlarm(applicationContext)
+                   // startDPC.dpcApp().iniciarAlarm(applicationContext)
                 }
-
             }else{
                 Log.msg(TAG,"[onCreate]  startDPC.start() ")
                 Settings.setSetting(Cons.KEY_DEVICE_ADMIN_ENABLED,true)

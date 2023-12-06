@@ -6,11 +6,10 @@ import android.app.admin.DevicePolicyManager
 import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Color
 import android.net.wifi.WifiManager
-import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -25,12 +24,12 @@ import com.macropay.data.dto.request.EventMQTT
 import com.macropay.data.logs.ErrorMgr
 import com.macropay.data.preferences.Defaults
 import com.macropay.downloader.Auxiliares
-import com.macropay.downloader.DefaultExceptionHandler
 import com.macropay.downloader.DeviceAdminReceiver
 import com.macropay.downloader.R
 import com.macropay.downloader.data.preferences.Status
 import com.macropay.downloader.databinding.ActivityAdminBinding
 import com.macropay.downloader.di.Inject.inject
+import com.macropay.downloader.domain.usecases.main.DPCAplication
 import com.macropay.downloader.domain.usecases.manual.InstallerDPC
 import com.macropay.downloader.domain.usecases.manual.TransferCtrl
 import com.macropay.downloader.receivers.NetworkReceiver
@@ -47,7 +46,10 @@ import com.macropay.utils.network.Red
 import com.macropay.utils.phone.DeviceInfo
 import com.macropay.utils.preferences.Cons
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 import kotlin.system.exitProcess
 
@@ -60,7 +62,8 @@ class AdminActivity
 
     @Inject
     lateinit var transferCtrl: TransferCtrl
-
+    @Inject
+    lateinit var dpcAplication: DPCAplication
     val DEVICE_ADMIN_ADD_RESULT_ENABLE = 1238
     var contTimeout = 0
     var ctx :Context? = null
@@ -97,6 +100,7 @@ class AdminActivity
             ErrorMgr.guardar(TAG,"onCreate",ex.message)
         }
     }
+    @SuppressLint("ResourceAsColor")
     private fun listeners() {
         try{
             binding!!.btnRestart.setOnClickListener(this)
@@ -115,12 +119,16 @@ class AdminActivity
 
 
                 binding!!.btnTestFRP.setOnClickListener(this)
-
+                binding!!.btnActivarTimer.setOnClickListener(this)
 
 
 
                 isFRPEnabled()
                 isErrorEnabled()
+                val bEnabled =  Settings.getSetting(Cons.KEY_TIMER_ENABLED,true)
+                Log.msg(TAG,"[listeners] bEnabled: $bEnabled")
+                binding.btnActivarTimer.isChecked = bEnabled
+                
             }else{
                 binding!!.btnTestService.visibility =  View.GONE
                 binding!!.btnTestFRP.visibility =  View.GONE
@@ -130,11 +138,16 @@ class AdminActivity
                 binding!!.btnTransfer.setOnClickListener(this)
                 binding.txtStatus.text = "Requiriendo permisos..."
             }
-            if( Settings.getSetting(Cons.KEY_IS_SERVICE_RUNNING,false)){
-                binding!!.txtMarca.text = "Servicio Corriendo OK"
-            }else
-            {
-                binding!!.txtMarca.text = "Servicio no se levanto correctamente"
+
+            // Settings.setSetting(Cons.KEY_IS_SERVICE_RUNNING,false)
+            val isServiceRunning=  Settings.getSetting(Cons.KEY_IS_SERVICE_RUNNING,false)
+            Log.msg(TAG,"[listeners] isServiceRunning $isServiceRunning")
+            if( isServiceRunning){
+                binding!!.txtServiceStatus.setTextColor(Color.parseColor("#00FF00"))
+                binding!!.txtServiceStatus.text = "Servicio Corriendo OK"
+            }else {
+                binding!!.txtServiceStatus.setTextColor(Color.parseColor("#FF0000"))
+                binding!!.txtServiceStatus.text = "Servicio no se levanto correctamente"
             }
         }catch (ex:Exception){
             ErrorMgr.guardar(TAG,"listeners",ex.message)
@@ -388,6 +401,11 @@ class AdminActivity
                 R.id.btnConfError ->{
                     enableError()
                 }
+                R.id.btnActivarTimer ->{
+                    enableTimer( binding.btnActivarTimer.isChecked )
+                }
+
+
                 else->{}
             }
         }catch (ex:Exception){
@@ -661,7 +679,26 @@ class AdminActivity
         return bEnabled
     }
 
-
+    fun enableTimer(bEnabled: Boolean){
+        Log.msg(TAG,"[enableTimer] bEnabled: $bEnabled")
+        try{
+            Settings.setSetting(Cons.KEY_TIMER_ENABLED,bEnabled)
+            if(bEnabled){
+                binding.btnActivarTimer.isEnabled = false
+                val df = DateTimeFormatter.ofPattern("HH:mm:ss") //yyyy-MM-dd
+                val hora = LocalDateTime.now().plusMinutes(3)
+                val strHora: String = hora.format(df)
+                Log.msg(TAG,"[enableTimer] hora: $hora")
+                Log.msg(TAG,"[enableTimer]*hora: ${strHora}")
+                showAlert("Prueba de TIMER","En 3 minutos ($strHora)\n se CERRARA la app,\n y aparecera el mensaje al reiniciar.")
+                dpcAplication.iniciarAlarm(this)
+            }
+            else
+                dpcAplication.cancelAlarm(this)
+        }catch (ex:Exception){
+            ErrorMgr.guardar(TAG,"enableTimer",ex.message)
+        }
+    }
 
     fun testService(testService:Boolean){
         if(!Utils.isDeviceOwner(this)) {
@@ -676,7 +713,7 @@ class AdminActivity
         Log.msg(TAG,"[testService] =================")
         Status.currentStatus = Status.eStatus.TerminoEnrolamiento
         Settings.setSetting(Cons.KEY_TYPE_TEST,tipoTest)
-
+        dpcAplication.cancelAlarm(this)
         var handler = Handler(Looper.getMainLooper())
         handler.postDelayed({
             if(testService){

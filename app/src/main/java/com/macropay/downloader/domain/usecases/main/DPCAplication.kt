@@ -3,48 +3,36 @@ package com.macropay.downloader.domain.usecases.main
 
 import android.app.AlarmManager
 import android.app.PendingIntent
-import com.macropay.downloader.utils.location.LocationMgr
-
-import com.macropay.downloader.utils.SettingsApp
-
-import com.macropay.data.logs.ErrorMgr
-
-import com.macropay.downloader.timers.TimerMonitor
-import com.macropay.downloader.utils.app.PackageService
-import android.net.wifi.WifiManager
-
-import com.macropay.downloader.utils.app.InstallManager
 import android.app.admin.DevicePolicyManager
 import android.content.*
+import android.net.wifi.WifiManager
 import android.os.*
 import com.macropay.data.di.RequestValidateServers
 import com.macropay.data.dto.request.PackageFile
+import com.macropay.data.logs.ErrorMgr
+import com.macropay.data.logs.Log
+import com.macropay.data.logs.Tracker
 import com.macropay.data.preferences.Defaults
+import com.macropay.data.usecases.UpdateAppsStatus
 import com.macropay.downloader.DeviceAdminReceiver
+import com.macropay.downloader.R
 import com.macropay.downloader.data.awsiot.MqttSettings
 import com.macropay.downloader.data.preferences.*
 import com.macropay.downloader.domain.usecases.provisioning.Provisioning
 import com.macropay.downloader.receivers.*
-
+import com.macropay.downloader.timers.TimerMonitor
 import com.macropay.downloader.utils.Settings
-
-import com.macropay.data.logs.Log
-import com.macropay.data.logs.Tracker
-import com.macropay.data.usecases.UpdateAppsStatus
-import com.macropay.downloader.R
-
+import com.macropay.downloader.utils.SettingsApp
+import com.macropay.downloader.utils.app.InstallManager
 import com.macropay.downloader.utils.app.InstallStatus
-import com.macropay.downloader.receivers.AlarmReceiver
-import com.macropay.downloader.receivers.NetworkReceiver
-import com.macropay.downloader.receivers.PackageReceiver
-
+import com.macropay.downloader.utils.app.PackageService
+import com.macropay.downloader.utils.location.LocationMgr
 import com.macropay.utils.phone.DeviceCfg
 import com.macropay.utils.preferences.Cons
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
-
 import javax.inject.Inject
 
 
@@ -333,7 +321,11 @@ class DPCAplication
     }
 
     fun iniciarAlarm(context: Context) {
-        Log.msg(TAG, "[iniciarAlarm] Inicializa el TimerManager,.")
+        val FRECUENCIA = 3
+        Log.msg(TAG, "[iniciarAlarm] ------------------------------------------------")
+        Log.msg(TAG, "[iniciarAlarm] Inicializa el TimerManager. $FRECUENCIA mins")
+        Log.msg(TAG, "[iniciarAlarm] ------------------------------------------------")
+
         try {
             // Get AlarmManager instance
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -344,14 +336,27 @@ class DPCAplication
             intent.putExtra("KEY_TEST_STRING", "Dato pasado al onReceive()")
             val pendingIntent = PendingIntent.getBroadcast(context, 0, intent,  PendingIntent.FLAG_IMMUTABLE)
             // Alarm time - Tiempo de intervalo de ejecucion.
-            val timeInterval = 5 * minuto
-            val alarmTime = System.currentTimeMillis() + 3_000L
+            val timeInterval = FRECUENCIA * minuto
+            val alarmTime = System.currentTimeMillis() + 60_000L
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmTime, timeInterval, pendingIntent)
+
         }catch (ex:Exception){
             ErrorMgr.guardar(TAG,"iniciarAlarm",ex.message)
         }
     }
+fun cancelAlarm(context: Context){
+    try{
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val myAlarm = Intent(context, AlarmReceiver::class.java)
 
+        val recurringAlarm = PendingIntent.getBroadcast(context, 0, myAlarm, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE )
+    //    context.getSystemService(Context.ALARM_SERVICE).cancel(recurringAlarm)
+
+        alarmManager.cancel(recurringAlarm)
+    }catch (ex:Exception){
+            ErrorMgr.guardar(TAG,"cancelAlarm",ex.message)
+    }
+    }
     fun cleanup() {
         //
         Log.msg(TAG, "[cleanup] -1-")

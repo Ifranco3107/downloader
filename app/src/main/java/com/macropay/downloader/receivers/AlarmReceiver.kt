@@ -1,12 +1,19 @@
 package com.macropay.downloader.receivers
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 //import com.macropay.dpcmacro.di.Inject
 import com.macropay.downloader.utils.app.InstallManager
 import com.macropay.downloader.utils.location.LocationDevice
 import com.macropay.data.logs.ErrorMgr
 import com.macropay.data.logs.Log
+import com.macropay.downloader.domain.usecases.main.DPCAplication
+import com.macropay.downloader.ui.common.mensajes.ToastDPC
+import com.macropay.downloader.utils.Utils
+import com.macropay.downloader.utils.activities.Dialogs
 import com.macropay.downloader.utils.app.PackageService
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -29,18 +36,20 @@ class AlarmReceiver : HiltBroadcasterReceiver() {
 
     @Inject
     lateinit var packageService : PackageService
+
+    @Inject
+    lateinit var dpcAplication: DPCAplication
     override fun onReceive(contetx: Context, intent: Intent) {
         super.onReceive(contetx, intent)
 
-        Log.msg(TAG, "onReceive -----------------------------------[ALARM]")
+        Log.msg(TAG, "[onReceive] -----------------------------------[ALARM]")
         try{
             // Is triggered when alarm goes off, i.e. receiving a system broadcast
             if (intent.action != "GPS_ACTION") {
                 return;
             }
-            Log.msg(TAG, "onReceive -----------------------------------[ exitProcess]")
-           // System.exit(2)
-            exitProcess(2)
+
+            terminateApp(contetx)
         /*            monMQTT()
             sendPendingTrx()
             lastLocation(contetx)
@@ -55,6 +64,35 @@ class AlarmReceiver : HiltBroadcasterReceiver() {
         }
      //   errorTest()
 
+    }
+    fun terminateApp(contetx: Context){
+        Log.msg(TAG, "[terminateApp] ---------------------[ exitProcess]")
+        // System.exit(2)
+        //exitProcess(2)
+     //   showAlert("Prueba de Errores","Se CERRARA la app,\n y aparecera el mensaje al reiniciar.",contetx)
+        Dialogs.playSound(contetx)
+        ToastDPC.showToast(contetx,"Se CERRARA la app,\n y aparecera el mensaje al reiniciar.")
+        dpcAplication.cancelAlarm(contetx)
+        var handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({
+            System.exit(2)
+        }, 6_000)
+    }
+    fun showAlert(title:String,msg:String,contetx: Context){
+        try{
+            val builder: AlertDialog.Builder? = this.let {
+                AlertDialog.Builder(contetx)
+            }
+
+            builder?.setMessage(msg)!!
+                .setTitle(title)
+
+            val dialog: AlertDialog? = builder?.create()
+            dialog!!.show()
+
+        }catch (ex:Exception){
+            ErrorMgr.guardar(TAG,"showAlert",ex.message)
+        }
     }
    /* private fun lastLocation(context: Context) {
         Log.msg(TAG, "[lastLocation] Obtiene la posicion GPS - lastLocation")

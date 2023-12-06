@@ -169,18 +169,18 @@ object Red {
         var strTransport = ""
         var ln = 0
         try {
-            Log.msg(TAG, "[getSSID] isOnline: $isOnline isWifi: $isWiFi" )
+         //   Log.msg(TAG, "[getSSID] isOnline: $isOnline isWifi: $isWiFi" )
             if(!isOnline)
                 return "Sin red"
 ln =1
             //Tipo Conexion
             typeTransport = if (ConnectivityManager.TYPE_WIFI == getInfo(context)!!.getType()) "Wifi" else "Celular"
-            Log.msg(TAG, "[getSSID] typeTransport: $typeTransport" )
+           // Log.msg(TAG, "[getSSID] typeTransport: $typeTransport" )
      ln=2
             var wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
             var info = wifiManager.connectionInfo
 ln = 3
-           Log.msg(TAG, "[getSSID] typeTransport: " + typeTransport)
+       //    Log.msg(TAG, "[getSSID] typeTransport: " + typeTransport)
             if ((typeTransport.equals( "Wifi"))) {
       ln=4
                 val ssidName = info.ssid

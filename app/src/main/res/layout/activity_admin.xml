@@ -51,7 +51,19 @@
                 android:textColor="@color/white"
 
                 android:textSize="20sp" />
+            <TextView
+                android:id="@+id/txtServiceStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="Actualizando informacion..."
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/color_alert"
 
+                android:textSize="20sp" />
             <ProgressBar
                 android:id="@+id/cp_pbar"
                 android:layout_width="84dp"
@@ -262,19 +274,7 @@
             android:textAllCaps="false"
             android:text="Enabled Error"
             tools:ignore="MissingConstraints" />
-        <Button
-            android:id="@+id/btnTestError"
-            android:layout_marginHorizontal="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:layout_marginTop="30dp"
-            android:backgroundTint="@color/macropay_blue"
-            android:textColor="@color/macropay_yellow"
-            android:layout_gravity="center_horizontal"
-            android:textAllCaps="false"
-            android:text="Test Error"
-            tools:ignore="MissingConstraints" />
+
         <Button
             android:id="@+id/btnTestService"
             android:layout_marginHorizontal="50dp"
@@ -288,7 +288,33 @@
             android:textAllCaps="false"
             android:text="Test Service"
             tools:ignore="MissingConstraints" />
+        <Button
+            android:id="@+id/btnTestError"
+            android:layout_marginHorizontal="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/macropay_blue"
+            android:textColor="@color/macropay_yellow"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="false"
+            android:text="Simular Error"
+            tools:ignore="MissingConstraints" />
 
+        <CheckBox
+            android:id="@+id/btnActivarTimer"
+            android:layout_marginHorizontal="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/macropay_blue"
+            android:textColor="@color/macropay_yellow"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="false"
+            android:text="Activar Timer"
+            tools:ignore="MissingConstraints" />
 
     </LinearLayout>
     <!--android:onClick="tester"

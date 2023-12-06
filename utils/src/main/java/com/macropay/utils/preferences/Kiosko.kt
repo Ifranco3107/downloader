@@ -25,13 +25,13 @@ object Kiosko {
     var kioskRequired:Boolean = false
         get() {
             val bEnabled =  Settings.getSetting(KEY_KIOSKO_REQUIRED, false)
-            Log.msg(TAG,"[get] kioskRequired: $bEnabled               <===========")
+            //Log.msg(TAG,"[get] kioskRequired: $bEnabled               <===========")
             return bEnabled
         }
         set(value) {
             field = value
             Settings.setSetting(KEY_KIOSKO_REQUIRED, field)
-            Log.msg(TAG,"[set] kioskRequired: $field")
+            //Log.msg(TAG,"[set] kioskRequired: $field")
         }
 
     //Tipo de kiosko /Credito,Cambio de Sim, Sin Red.

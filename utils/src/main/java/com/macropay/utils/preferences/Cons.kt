@@ -161,4 +161,5 @@ object Cons {
     const val LAST_LOGS_REVIEW_DATE = "DATE_LAST_LOGS_REVIEW"
 
     const val KEY_TYPE_TEST = "type_test"
+    const val KEY_TIMER_ENABLED = "timer_enabled"
 }
