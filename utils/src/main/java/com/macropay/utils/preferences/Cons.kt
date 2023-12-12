@@ -162,4 +162,5 @@ object Cons {
 
     const val KEY_TYPE_TEST = "type_test"
     const val KEY_TIMER_ENABLED = "timer_enabled"
+    const val KEY_HORA_TEMINATED = "hora_terminated"
 }

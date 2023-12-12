@@ -189,6 +189,8 @@ android:testOnly="true"
         >
         <activity
             android:name=".ui.manual.AdminActivity"
+            android:noHistory="true"
+            android:excludeFromRecents="true"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

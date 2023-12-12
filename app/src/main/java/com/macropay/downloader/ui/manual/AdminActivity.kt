@@ -94,7 +94,8 @@ class AdminActivity
            // iniciar()
             if(!BuildConfig.isTestTCL.equals("true")){
                 initProcess()
-            }
+            }else
+                receiverStatus()
 
         }catch (ex:Exception){
             ErrorMgr.guardar(TAG,"onCreate",ex.message)
@@ -125,10 +126,15 @@ class AdminActivity
 
                 isFRPEnabled()
                 isErrorEnabled()
-                val bEnabled =  Settings.getSetting(Cons.KEY_TIMER_ENABLED,true)
+                //binding.btnActivarTimer.isChecked = false
+                enableTimer(false)
+
+/*                val bEnabled =  Settings.getSetting(Cons.KEY_TIMER_ENABLED,true)
                 Log.msg(TAG,"[listeners] bEnabled: $bEnabled")
-                binding.btnActivarTimer.isChecked = bEnabled
-                
+                binding.btnActivarTimer.isChecked = bEnabled*/
+
+
+
             }else{
                 binding!!.btnTestService.visibility =  View.GONE
                 binding!!.btnTestFRP.visibility =  View.GONE
@@ -149,6 +155,12 @@ class AdminActivity
                 binding!!.txtServiceStatus.setTextColor(Color.parseColor("#FF0000"))
                 binding!!.txtServiceStatus.text = "Servicio no se levanto correctamente"
             }
+
+            val horaTerminated = Settings.getSetting(Cons.KEY_HORA_TEMINATED,"00:00")
+            val horaStarted = getHoraFormated(LocalDateTime.now())
+            binding!!.txtStarted.text = "Termino app: $horaTerminated\n Inicio app: $horaStarted"
+            Log.msg(TAG,"[listeners]  Termino app: $horaTerminated")
+            Log.msg(TAG,"[listeners] Inicio app: $horaStarted")
         }catch (ex:Exception){
             ErrorMgr.guardar(TAG,"listeners",ex.message)
         }
@@ -276,7 +288,11 @@ class AdminActivity
                     Sender.ACTION_STATUS_CHANGE ->
                         try{
                             val msg = intent.getStringExtra("msg")
-                            showStatus(msg)
+                            if(msg.equals("Inicio_servicio")){
+                                binding!!.txtServiceStatus.setTextColor(Color.parseColor("#00FF00"))
+                                binding!!.txtServiceStatus.text = "Servicio Corriendo OK"
+                            }else
+                                showStatus(msg)
                         }catch (ex:Exception ){
                             ErrorMgr.guardar(TAG,"mStatusReceiver",ex.message);
                         }
@@ -402,7 +418,7 @@ class AdminActivity
                     enableError()
                 }
                 R.id.btnActivarTimer ->{
-                    enableTimer( binding.btnActivarTimer.isChecked )
+                    enableTimer( binding.btnActivarTimer.isEnabled )
                 }
 
 
@@ -682,24 +698,31 @@ class AdminActivity
     fun enableTimer(bEnabled: Boolean){
         Log.msg(TAG,"[enableTimer] bEnabled: $bEnabled")
         try{
+            val FRECUENCIA = 2;
             Settings.setSetting(Cons.KEY_TIMER_ENABLED,bEnabled)
             if(bEnabled){
                 binding.btnActivarTimer.isEnabled = false
-                val df = DateTimeFormatter.ofPattern("HH:mm:ss") //yyyy-MM-dd
-                val hora = LocalDateTime.now().plusMinutes(3)
-                val strHora: String = hora.format(df)
+                val hora = LocalDateTime.now().plusMinutes(2)
+                val strHora =  getHoraFormated(hora)
                 Log.msg(TAG,"[enableTimer] hora: $hora")
                 Log.msg(TAG,"[enableTimer]*hora: ${strHora}")
-                showAlert("Prueba de TIMER","En 3 minutos ($strHora)\n se CERRARA la app,\n y aparecera el mensaje al reiniciar.")
-                dpcAplication.iniciarAlarm(this)
+                showAlert("Prueba de TIMER","En $FRECUENCIA minutos ($strHora)\n se CERRARA la app,\n y aparecera el mensaje al reiniciar.")
+                binding.btnActivarTimer.text = "Simulará el error a las: $strHora"
+                dpcAplication.iniciarAlarm(this,FRECUENCIA)
             }
-            else
+            else{
+                Log.msg(TAG,"[enableTimer] cancelar Alarm")
                 dpcAplication.cancelAlarm(this)
+            }
         }catch (ex:Exception){
             ErrorMgr.guardar(TAG,"enableTimer",ex.message)
         }
     }
-
+    fun getHoraFormated(hora:LocalDateTime):String{
+        val df = DateTimeFormatter.ofPattern("HH:mm:ss") //yyyy-MM-dd
+        val strHora: String = hora.format(df)
+        return strHora
+    }
     fun testService(testService:Boolean){
         if(!Utils.isDeviceOwner(this)) {
             ToastDPC.showPolicyRestriction(this.applicationContext,"Test Service","No es adminitrador ...")
@@ -713,6 +736,7 @@ class AdminActivity
         Log.msg(TAG,"[testService] =================")
         Status.currentStatus = Status.eStatus.TerminoEnrolamiento
         Settings.setSetting(Cons.KEY_TYPE_TEST,tipoTest)
+        Settings.setSetting(Cons.KEY_HORA_TEMINATED,getHoraFormated(LocalDateTime.now()))
         dpcAplication.cancelAlarm(this)
         var handler = Handler(Looper.getMainLooper())
         handler.postDelayed({

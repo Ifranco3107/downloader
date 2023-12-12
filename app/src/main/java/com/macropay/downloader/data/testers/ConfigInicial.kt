@@ -1,5 +1,6 @@
 package com.macropay.downloader.data.testers
 
+import android.provider.Settings
 import com.macropay.data.dto.request.EventMQTT
 import org.json.JSONObject
 import org.json.JSONArray
@@ -577,6 +578,7 @@ object ConfigInicial {
 
     fun getBloqueoFileTransfer(bEnabledProp: Boolean?): JSONObject {
         var restriccion = JSONObject()
+
         try {
             restriccion = JSONObject()
             restriccion.put("name", TipoBloqueo.disable_file_transfer)

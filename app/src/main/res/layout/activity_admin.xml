@@ -64,6 +64,20 @@
                 android:textColor="@color/color_alert"
 
                 android:textSize="20sp" />
+            <TextView
+                android:id="@+id/txtStarted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="Actualizando informacion..."
+                android:textAlignment="center"
+                android:lines="2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/color_info"
+
+                android:textSize="20sp" />
             <ProgressBar
                 android:id="@+id/cp_pbar"
                 android:layout_width="84dp"
@@ -286,7 +300,7 @@
             android:textColor="@color/macropay_yellow"
             android:layout_gravity="center_horizontal"
             android:textAllCaps="false"
-            android:text="Test Service"
+            android:text="Probar Service durante reboot"
             tools:ignore="MissingConstraints" />
         <Button
             android:id="@+id/btnTestError"
@@ -294,7 +308,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:backgroundTint="@color/macropay_blue"
             android:textColor="@color/macropay_yellow"
             android:layout_gravity="center_horizontal"
@@ -302,7 +316,7 @@
             android:text="Simular Error"
             tools:ignore="MissingConstraints" />
 
-        <CheckBox
+        <Button
             android:id="@+id/btnActivarTimer"
             android:layout_marginHorizontal="50dp"
             android:layout_width="match_parent"
@@ -313,7 +327,7 @@
             android:textColor="@color/macropay_yellow"
             android:layout_gravity="center_horizontal"
             android:textAllCaps="false"
-            android:text="Activar Timer"
+            android:text="Simular Error con Timer"
             tools:ignore="MissingConstraints" />
 
     </LinearLayout>

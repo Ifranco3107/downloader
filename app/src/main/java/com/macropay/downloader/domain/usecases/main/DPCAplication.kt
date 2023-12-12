@@ -320,8 +320,8 @@ class DPCAplication
         }
     }
 
-    fun iniciarAlarm(context: Context) {
-        val FRECUENCIA = 3
+    fun iniciarAlarm(context: Context,FRECUENCIA :Int= 2) {
+
         Log.msg(TAG, "[iniciarAlarm] ------------------------------------------------")
         Log.msg(TAG, "[iniciarAlarm] Inicializa el TimerManager. $FRECUENCIA mins")
         Log.msg(TAG, "[iniciarAlarm] ------------------------------------------------")
@@ -344,18 +344,21 @@ class DPCAplication
             ErrorMgr.guardar(TAG,"iniciarAlarm",ex.message)
         }
     }
-fun cancelAlarm(context: Context){
-    try{
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val myAlarm = Intent(context, AlarmReceiver::class.java)
+    fun cancelAlarm(context: Context){
+     //   return
+        Log.msg(TAG,"[cancelAlarm] ")
+        try{
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val intent = Intent(context, AlarmReceiver::class.java)
+            intent.action = "GPS_ACTION"
+            intent.putExtra("KEY_TEST_STRING", "Dato pasado al onReceive()")
 
-        val recurringAlarm = PendingIntent.getBroadcast(context, 0, myAlarm, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE )
-    //    context.getSystemService(Context.ALARM_SERVICE).cancel(recurringAlarm)
-
-        alarmManager.cancel(recurringAlarm)
-    }catch (ex:Exception){
-            ErrorMgr.guardar(TAG,"cancelAlarm",ex.message)
-    }
+            val recurringAlarm = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE )
+            recurringAlarm.cancel()
+            alarmManager.cancel(recurringAlarm)
+        }catch (ex:Exception){
+                ErrorMgr.guardar(TAG,"cancelAlarm",ex.message)
+        }
     }
     fun cleanup() {
         //

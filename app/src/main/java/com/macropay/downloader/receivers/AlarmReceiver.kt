@@ -12,10 +12,14 @@ import com.macropay.data.logs.ErrorMgr
 import com.macropay.data.logs.Log
 import com.macropay.downloader.domain.usecases.main.DPCAplication
 import com.macropay.downloader.ui.common.mensajes.ToastDPC
+import com.macropay.downloader.utils.Settings
 import com.macropay.downloader.utils.Utils
 import com.macropay.downloader.utils.activities.Dialogs
 import com.macropay.downloader.utils.app.PackageService
+import com.macropay.utils.preferences.Cons
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 import kotlin.system.exitProcess
 
@@ -65,6 +69,11 @@ class AlarmReceiver : HiltBroadcasterReceiver() {
      //   errorTest()
 
     }
+    fun getHoraFormated(hora: LocalDateTime):String{
+        val df = DateTimeFormatter.ofPattern("HH:mm:ss") //yyyy-MM-dd
+        val strHora: String = hora.format(df)
+        return strHora
+    }
     fun terminateApp(contetx: Context){
         Log.msg(TAG, "[terminateApp] ---------------------[ exitProcess]")
         // System.exit(2)
@@ -74,6 +83,7 @@ class AlarmReceiver : HiltBroadcasterReceiver() {
         ToastDPC.showToast(contetx,"Se CERRARA la app,\n y aparecera el mensaje al reiniciar.")
         dpcAplication.cancelAlarm(contetx)
         var handler = Handler(Looper.getMainLooper())
+        Settings.setSetting(Cons.KEY_HORA_TEMINATED,getHoraFormated(LocalDateTime.now()))
         handler.postDelayed({
             System.exit(2)
         }, 6_000)

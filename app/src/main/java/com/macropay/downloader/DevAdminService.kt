@@ -8,10 +8,13 @@ import com.macropay.utils.preferences.Cons
 import com.macropay.downloader.utils.Settings
 import com.macropay.data.logs.ErrorMgr
 import com.macropay.data.logs.Log
+
 import com.macropay.downloader.data.preferences.Status
 import com.macropay.downloader.data.preferences.dpcValues
 import com.macropay.downloader.domain.usecases.main.StartDPC
 import com.macropay.downloader.ui.common.mensajes.ToastDPC
+import com.macropay.utils.broadcast.Sender
+
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 @AndroidEntryPoint
@@ -38,6 +41,7 @@ class DevAdminService
                     val msg = if(tipoTest.equals("REBOOT"))  "SERVICIO" else "CONTROL ERRORES"
                     ToastDPC.showPolicyRestriction(this.applicationContext,"Verificación del $msg","Si esta Funcionando correctamente...")
                    // startDPC.dpcApp().iniciarAlarm(applicationContext)
+                   Sender.sendStatus("Inicio_servicio")
                 }
             }else{
                 Log.msg(TAG,"[onCreate]  startDPC.start() ")

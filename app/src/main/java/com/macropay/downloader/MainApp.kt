@@ -2,14 +2,18 @@ package com.macropay.downloader
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import com.macropay.data.logs.ErrorMgr
 import com.macropay.data.logs.Log
+import com.macropay.downloader.data.preferences.Status
 import com.macropay.downloader.data.preferences.TipoBloqueo
 import com.macropay.downloader.domain.usecases.main.DPCAplication
 import com.macropay.downloader.domain.usecases.main.StartDPC
 import com.macropay.downloader.domain.usecases.provisioning.ProvisioningManual
+import com.macropay.downloader.ui.manual.AdminActivity
+import com.macropay.downloader.ui.provisioning.ResetCveActivity
 import com.macropay.downloader.utils.Settings
 import com.macropay.downloader.utils.SettingsApp
 import com.macropay.downloader.utils.activities.Dialogs
@@ -74,12 +78,27 @@ class MainApp: Application(){
             //Asegura que se levante el Servicio de DeviceAdminService
           //Todo:14Nov2023 verificar si se usa  ensureAdminService()
             Log.msg(TAG,"[onCreate] ++++++++++++++++++++< Termino > ++++++++++++++++++++++++++++++++++++++")
+            if(Status.currentStatus ==Status.eStatus.TerminoEnrolamiento)
+                showActivity(applicationContext)
+
         }catch (ex:Exception){
             System.out.println(TAG +"[onCreate], ERROR: "+ex.message)
 //            Log.msg(TAG,"onCreate- Errror:\n"+ex.message)
         }
     }
-
+    fun showActivity(context:Context){
+        Log.msg(TAG,"[showActivity] va iniciar - AdminActivity")
+        try{
+            val handlerService = Handler(Looper.getMainLooper())
+            handlerService.postDelayed({
+            val intentMain =  Intent(context, AdminActivity::class.java)
+            intentMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intentMain)
+            },3_000)
+        }catch (ex:Exception){
+            ErrorMgr.guardar(TAG, "showActivity", ex.message)
+        }
+    }
 
     fun  ensureAdminService(){
         Settings.setSetting(Cons.KEY_DEVICE_ADMIN_ENABLED,false)
