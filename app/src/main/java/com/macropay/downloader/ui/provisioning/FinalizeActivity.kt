@@ -16,6 +16,7 @@
 package com.macropay.downloader.ui.provisioning
 
 
+import android.app.AlertDialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -38,6 +39,7 @@ import com.macropay.downloader.data.preferences.Status
 import com.macropay.downloader.data.preferences.dpcValues
 import com.macropay.downloader.data.preferences.dpcValues.isProvisioning
 import com.macropay.downloader.databinding.FinalizeActivityBinding
+import com.macropay.downloader.domain.usecases.main.DPCAplication
 import com.macropay.downloader.receivers.NetworkReceiver
 import com.macropay.downloader.ui.common.mensajes.ToastDPC
 import com.macropay.downloader.utils.Settings
@@ -48,6 +50,8 @@ import com.macropay.utils.network.Red
 import com.macropay.utils.phone.DeviceInfo
 import com.macropay.utils.preferences.Cons
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -63,6 +67,8 @@ class FinalizeActivity
     private var bClosed =false
     @Inject
     lateinit var enrollDevice: EnrollDevice
+    @Inject
+    lateinit var   dpcAplication : DPCAplication
 
 /*    @Inject
     lateinit var restrinctions: Restrictions*/
@@ -234,7 +240,50 @@ class FinalizeActivity
             ErrorMgr.guardar(TAG, "showStatus", ex.message)
         }
     }
+    fun enableTimer(bEnabled: Boolean){
+        com.macropay.utils.logs.Log.msg(TAG,"[enableTimer] bEnabled: $bEnabled")
+        try{
+            val FRECUENCIA = 2;
+            Settings.setSetting(Cons.KEY_TIMER_ENABLED,bEnabled)
+            if(bEnabled){
 
+                val hora = LocalDateTime.now().plusMinutes(2)
+                val strHora =  getHoraFormated(hora)
+                com.macropay.utils.logs.Log.msg(TAG,"[enableTimer] hora: $hora")
+                com.macropay.utils.logs.Log.msg(TAG,"[enableTimer]*hora: ${strHora}")
+                showAlert("Prueba de Servicio","En $FRECUENCIA minutos ($strHora)\n y se debera activar la app.")
+                Status.currentStatus = Status.eStatus.TerminoEnrolamiento
+                dpcAplication.iniciarAlarm(this,FRECUENCIA)
+            }
+            else{
+                com.macropay.utils.logs.Log.msg(TAG,"[enableTimer] cancelar Alarm")
+                dpcAplication.cancelAlarm(this)
+            }
+        }catch (ex:Exception){
+            ErrorMgr.guardar(TAG,"enableTimer",ex.message)
+        }
+    }
+    fun showAlert(title:String,msg:String){
+        try{
+            val builder: AlertDialog.Builder? = this.let {
+                AlertDialog.Builder(it)
+            }
+
+            builder?.setMessage(msg)!!
+                .setTitle(title)
+
+            val dialog: AlertDialog? = builder?.create()
+            dialog!!.show()
+
+        }catch (ex:Exception){
+            ErrorMgr.guardar(TAG,"showAlert",ex.message)
+        }
+    }
+    fun getHoraFormated(hora:LocalDateTime):String{
+        val df = DateTimeFormatter.ofPattern("HH:mm:ss") //yyyy-MM-dd
+        val strHora: String = hora.format(df)
+        return strHora
+    }
     fun lowBattery(level:Int){
         try{
             var status = Battery.batteryStatus(this.applicationContext)
@@ -271,10 +320,18 @@ class FinalizeActivity
                 return
             }
 
-             binding.txtStatus.text= "Aplicando...."
-             Log.msg(TAG, "[cerrar] RESULT_OK")
-             setResult(RESULT_OK)
-             finish()
+            enableTimer(true)
+
+            //
+            val handlerLock = Handler(Looper.getMainLooper())
+            handlerLock.postDelayed(
+                {
+                    binding.txtStatus.text= "Aplicando...."
+                    Log.msg(TAG, "[cerrar] RESULT_OK")
+                    setResult(RESULT_OK)
+                    finish()
+                }, 5_000)
+
         } catch (ex: Exception) {
              bCerrando = false
              ErrorMgr.guardar(TAG,"cerrar",ex.message)

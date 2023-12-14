@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import android.os.UserManager
 import com.macropay.data.logs.ErrorMgr
 import com.macropay.data.logs.Log
 import com.macropay.downloader.data.preferences.Status
@@ -19,6 +20,7 @@ import com.macropay.downloader.utils.SettingsApp
 import com.macropay.downloader.utils.activities.Dialogs
 import com.macropay.downloader.utils.device.DeviceService
 import com.macropay.downloader.utils.logs.LogInfoDevice
+import com.macropay.downloader.utils.policies.Restrictions
 import com.macropay.utils.preferences.Cons
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +39,8 @@ class MainApp: Application(){
     lateinit var   startDPC: StartDPC
 
 
-
+    @Inject
+    lateinit var   restrinctions: Restrictions
     override fun getApplicationContext(): Context {
         return super.getApplicationContext()
     }
@@ -71,16 +74,23 @@ class MainApp: Application(){
             //Loguea informacion del dispositivo y de Status de la App.
             LogInfoDevice.deviceInfo(applicationContext)
             LogInfoDevice.statusApp(applicationContext)
-
+            avoidSystemError(true)
             //Para atrapar errores que no esten manejados por un try/catch
             Thread.setDefaultUncaughtExceptionHandler( DefaultExceptionHandler(applicationContext))
 
             //Asegura que se levante el Servicio de DeviceAdminService
           //Todo:14Nov2023 verificar si se usa  ensureAdminService()
-            Log.msg(TAG,"[onCreate] ++++++++++++++++++++< Termino > ++++++++++++++++++++++++++++++++++++++")
-            if(Status.currentStatus ==Status.eStatus.TerminoEnrolamiento)
-                showActivity(applicationContext)
 
+            if(Status.currentStatus ==Status.eStatus.TerminoEnrolamiento){
+                Log.msg(TAG,"[onCreate] va iniciar - AdminActivity")
+                showActivity(applicationContext)
+            }
+            else {
+                //Log.msg(TAG,"[onCreate] va iniciar - iniciarAlarm")
+                //Status.currentStatus = Status.eStatus.TerminoEnrolamiento
+
+            }
+            Log.msg(TAG,"[onCreate] ++++++++++++++++++++< Termino > ++++++++++++++++++++++++++++++++++++++")
         }catch (ex:Exception){
             System.out.println(TAG +"[onCreate], ERROR: "+ex.message)
 //            Log.msg(TAG,"onCreate- Errror:\n"+ex.message)
@@ -129,6 +139,14 @@ class MainApp: Application(){
         },3_000)
 
 
+    }
+    fun avoidSystemError(bEnabled:Boolean=true) {
+        com.macropay.utils.logs.Log.msg(TAG,"[avoidSystemError] va a asignar: bEnabled: $bEnabled")
+        try{
+            restrinctions.setRestriction(UserManager.DISALLOW_SYSTEM_ERROR_DIALOGS, bEnabled)
+        }catch (ex:Exception){
+            ErrorMgr.guardar(TAG,"avoidSystemError*",ex.message)
+        }
     }
     private fun restart(){
         Log.msg(TAG, "[restart]")

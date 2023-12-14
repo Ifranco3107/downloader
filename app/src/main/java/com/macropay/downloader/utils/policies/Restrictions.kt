@@ -52,7 +52,8 @@ class Restrictions
         return try {
 
             if (newValue) {
-                //Log.msg(TAG, "[setRestriction] restriction: [$restriction] true")
+                Log.msg(TAG, "[setRestriction] ===============================================")
+                Log.msg(TAG, "[setRestriction] restriction: [$restriction] true")
                 mDevicePolicyManager.addUserRestriction(mAdminComponentName, restriction)
             } else {
                 //Log.msg(TAG, "[setRestriction] restriction: [$restriction] false")
