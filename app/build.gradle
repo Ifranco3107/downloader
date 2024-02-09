@@ -45,8 +45,8 @@ android {
         //IFA  19OCT targetSdk 30
         //noinspection ExpiredTargetSdkVersion
 
-        versionCode 59//Numero de compilacion.
-        versionName "1.1.59 14Dic23"
+        versionCode 354//Numero de compilacion.
+        versionName "1.1.59 22Ene24"
 /*
          --------------------------------------------
          **         HISTORICO DE VERSIONES.        **
